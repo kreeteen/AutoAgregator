@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="~{fragments :: head((car.carBrand != null ? car.carBrand.name : '') + ' ' + (car.carModel != null ? car.carModel.name : '') + ' — ProjectCars Marketplace')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<div th:replace="~{fragments :: categoryBar}"></div>
+
+<div class="detail-header-racing">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div>
+            <h5 style="font-weight:800;margin:0;text-transform:uppercase;letter-spacing:1px;font-size:1rem;" th:text="${(car.carBrand != null ? car.carBrand.name : '') + ' ' + (car.carModel != null ? car.carModel.name : '')}">Make Model</h5>
+            <small style="color:var(--yellow);font-weight:700;" th:text="${#numbers.formatDecimal(car.price, 0, 'COMMA', 0, 'POINT') + ' руб.'}">price</small>
+        </div>
+        <a th:href="@{/cars}" class="btn-racing-outline" style="font-size:0.7rem;padding:0.3rem 0.8rem;"><i class="bi bi-arrow-left me-1"></i>Назад</a>
+    </div>
+</div>
+
+<div class="checkered"></div>
+
+<div class="container py-4">
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <!-- Gallery -->
+            <div class="detail-gallery mb-4">
+                <img th:if="${!#lists.isEmpty(car.images)}" th:src="${car.images[0].filePath}" class="main-image" alt="" onclick="openLightbox(this.src)">
+                <div th:if="${#lists.isEmpty(car.images)}" style="height:400px;background:var(--carbon);display:flex;align-items:center;justify-content:center;border:2px solid var(--border-color);">
+                    <i class="bi bi-car-front" style="font-size:5rem;color:var(--text-muted);"></i>
+                </div>
+                <div class="thumbnails" th:if="${#lists.size(car.images) > 1}">
+                    <img th:each="img, imgStat : ${car.images}" th:src="${img.filePath}" th:classappend="${imgStat.index == 0} ? active" alt="" onclick="changeImage(this)">
+                </div>
+            </div>
+
+            <!-- Info -->
+            <div class="card-racing mb-4">
+                <div class="card-body" style="padding:1.5rem;">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h4 style="font-weight:800;text-transform:uppercase;letter-spacing:1px;" th:text="${(car.carBrand != null ? car.carBrand.name : '') + ' ' + (car.carModel != null ? car.carModel.name : '')}">Make Model</h4>
+                            <span class="btn-racing" style="font-size:0.65rem;padding:0.2rem 0.8rem;display:inline-block;" th:text="${car.projectTag.name}">tag</span>
+                        </div>
+                        <div class="text-end">
+                            <div style="font-size:1.8rem;font-weight:900;color:var(--yellow);" th:text="${#numbers.formatDecimal(car.price, 0, 'COMMA', 0, 'POINT') + ' руб.'}">price</div>
+                            <small style="color:var(--text-muted);"><i class="bi bi-eye me-1"></i><span th:text="${car.viewsCount != null ? car.viewsCount : 0}">0</span></small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-3 mb-3" style="font-size:0.8rem;color:var(--text-secondary);">
+                        <span><i class="bi bi-calendar me-1"></i><span th:text="${#temporals.format(car.createdAt, 'dd MMMM yyyy')}">date</span></span>
+                        <span th:if="${car.city != null and !car.city.isEmpty()}"><i class="bi bi-geo-alt me-1"></i><span th:text="${car.city}">City</span></span>
+                        <span th:if="${car.manufactureYear != null}"><i class="bi bi-calendar-event me-1"></i><span th:text="${car.manufactureYear}">Year</span></span>
+                    </div>
+
+                    <div th:if="${carModsHtml != null and !carModsHtml.isEmpty()}" class="mb-3">
+                        <h6 style="font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.5rem;">Модификации</h6>
+                        <div class="d-flex flex-wrap gap-2" th:utext="${carModsHtml}"></div>
+                    </div>
+
+                    <h6 style="font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:0.8rem;color:var(--text-secondary);margin-bottom:1rem;">Характеристики</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6" th:if="${car.engineType != null}">
+                            <div class="spec-bar">
+                                <span class="spec-label">Двигатель</span>
+                                <span class="spec-value" th:text="${car.engineType}">Бензин</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6" th:if="${car.engineDisplacement != null}">
+                            <div class="spec-bar">
+                                <span class="spec-label">Объём</span>
+                                <span class="spec-value" th:text="${#numbers.formatDecimal(car.engineDisplacement, 1, 'DEFAULT', 1, 'POINT') + ' л'}">2.0</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6" th:if="${car.enginePower != null}">
+                            <div class="spec-bar">
+                                <span class="spec-label">Мощность</span>
+                                <div class="spec-track">
+                                    <div class="spec-fill" th:style="'width:' + (car.enginePower / 6) + '%'"></div>
+                                </div>
+                                <span class="spec-value" th:text="${car.enginePower + ' л.с.'}">200</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6" th:if="${car.mileageKm != null}">
+                            <div class="spec-bar">
+                                <span class="spec-label">Пробег</span>
+                                <div class="spec-track">
+                                    <div class="spec-fill" th:style="'width:' + (car.mileageKm / 5000) + '%'"></div>
+                                </div>
+                                <span class="spec-value" th:text="${#numbers.formatDecimal(car.mileageKm, 0, 'DEFAULT', 0, 'DEFAULT') + ' км'}">0</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6" th:if="${car.mileageHours != null}">
+                            <div class="spec-bar">
+                                <span class="spec-label">Моточасы</span>
+                                <span class="spec-value" th:text="${car.mileageHours + ' мч'}">0</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6" th:if="${car.bodyType != null}">
+                            <div class="spec-bar">
+                                <span class="spec-label">Кузов</span>
+                                <span class="spec-value" th:text="${car.bodyType}">Седан</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="spec-bar">
+                                <span class="spec-label">Руль</span>
+                                <span class="spec-value" th:text="${car.steeringSide != null ? car.steeringSide : 'Левый'}">Левый</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="spec-bar">
+                                <span class="spec-label">Учёт</span>
+                                <span class="spec-value" th:text="${car.registered} ? 'На учёте' : 'Снят'">На учёте</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6" th:if="${car.carGeneration != null}">
+                            <div class="spec-bar">
+                                <span class="spec-label">Поколение</span>
+                                <span class="spec-value" th:text="${car.carGeneration.name}">Gen</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="card-racing mb-4">
+                <div class="card-body" style="padding:1.5rem;">
+                    <h6 style="font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.75rem;">Описание</h6>
+                    <p style="white-space:pre-wrap;line-height:1.8;color:var(--text-primary);font-size:0.9rem;" th:text="${car.description}">description</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="filter-racing" style="position:sticky;top:90px;">
+                <div class="text-center mb-3">
+                    <div style="width:60px;height:60px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 0.75rem;font-size:1.5rem;color:white;">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <h6 style="font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:0.85rem;" th:text="${car.user.firstName + ' ' + car.user.lastName}">Name</h6>
+                    <small style="color:var(--text-muted);font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;">Продавец</small>
+                </div>
+                <button class="btn-apply" type="button" th:if="${isAuthenticated}" onclick="revealPhone()">
+                    <i class="bi bi-telephone me-2"></i>Показать телефон
+                </button>
+                <a th:href="@{/login}" class="btn-apply" style="display:block;text-align:center;text-decoration:none;" th:unless="${isAuthenticated}">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Войдите для контакта
+                </a>
+                <div id="phoneDisplay" class="text-center py-2" style="display:none;background:rgba(255,214,10,0.1);color:var(--yellow);font-weight:700;font-size:1.1rem;margin-top:0.5rem;"></div>
+                <a th:href="@{/cars}" class="btn-racing-outline w-100 mt-3" style="display:block;text-align:center;padding:0.5rem;font-size:0.75rem;">
+                    <i class="bi bi-arrow-left me-1"></i>Назад к объявлениям
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="event.stopPropagation();closeLightbox()">✕</button>
+    <img id="lightboxImg" src="" alt="">
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+<script th:inline="javascript">
+    var carId = [[${car.id}]];
+    function revealPhone() {
+        fetch('/api/cars/' + carId + '/phone').then(function(r) { return r.text(); }).then(function(phone) {
+            var el = document.getElementById('phoneDisplay');
+            el.textContent = '📞 ' + phone;
+            el.style.display = 'block';
+        });
+    }
+    function openLightbox(src) {
+        document.getElementById('lightboxImg').src = src;
+        document.getElementById('lightbox').classList.add('active');
+    }
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('active');
+    }
+    function changeImage(el) {
+        var main = el.closest('.detail-gallery').querySelector('.main-image');
+        main.src = el.src;
+        el.closest('.thumbnails').querySelectorAll('img').forEach(function(i) { i.classList.remove('active'); });
+        el.classList.add('active');
+    }
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+</script>
+</body>
+</html>

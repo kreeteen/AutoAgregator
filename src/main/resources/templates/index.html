@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="~{fragments :: head('ProjectCars Marketplace')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<section class="hero-racing">
+    <div class="hero-content">
+        <h1>PROJECT<span>CARS</span></h1>
+        <p>Дрифт · Станс · Оффроуд · Драг · Трек</p>
+        <div class="hero-search">
+            <form th:action="@{/cars}" method="get" style="display:contents;">
+                <input type="text" name="query" placeholder="Поиск по марке, модели..." th:value="${param.query}">
+                <button type="submit"><i class="bi bi-search me-2"></i>НАЙТИ</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<div class="checkered"></div>
+
+<div class="container py-5">
+    <div class="row g-3 mb-5">
+        <div class="col-md-4">
+            <div class="stat-racing">
+                <div class="stat-number" th:text="${totalListings}">0</div>
+                <div class="stat-label">Объявлений</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-racing">
+                <div class="stat-number" th:text="${totalTags}">0</div>
+                <div class="stat-label">Категорий</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-racing">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Поддержка</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 style="font-weight:800;text-transform:uppercase;letter-spacing:2px;font-size:0.9rem;"><i class="bi bi-clock-history me-2"></i>Последние проекты</h5>
+        <a th:href="@{/cars}" class="btn-racing" style="font-size:0.75rem;padding:0.4rem 1.2rem;">Все →</a>
+    </div>
+
+    <div class="row" th:if="${!#lists.isEmpty(recentCars)}">
+        <div class="col-md-6 col-lg-4 mb-4" th:each="car : ${recentCars}">
+            <div class="card-racing">
+                <div class="card-image">
+                    <div class="badge-corner" th:text="${car.projectTag.name}">tag</div>
+                    <img th:if="${!#lists.isEmpty(car.images)}" th:src="${car.images[0].filePath}" alt="">
+                    <div th:if="${#lists.isEmpty(car.images)}" style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-muted);font-size:3rem;">
+                        <i class="bi bi-car-front"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-title" th:if="${car.carBrand != null}" th:text="${car.carBrand.name + ' ' + (car.carModel != null ? car.carModel.name : '')}">Make Model</div>
+                    <div class="card-title" th:if="${car.carBrand == null}">Без марки</div>
+                    <div class="card-subtitle">
+                        <i class="bi bi-calendar"></i> <span th:text="${car.manufactureYear}">2000</span>
+                        <i class="bi bi-geo-alt ms-2"></i> <span th:text="${car.city}">City</span>
+                    </div>
+                    <div class="card-price" th:text="${#numbers.formatDecimal(car.price, 0, 'COMMA', 0, 'POINT') + ' руб.'}">price</div>
+                    <div class="card-specs">
+                        <div class="spec"><strong>Кузов:</strong> <span th:text="${car.bodyType}">sedan</span></div>
+                        <div class="spec"><strong>Модиф.:</strong> <span th:text="${#lists.size(car.selectedMods)}">0</span></div>
+                    </div>
+                    <p th:if="${car.description != null and #strings.length(car.description) > 80}" th:text="${#strings.substring(car.description, 0, 80) + '...'}" style="font-size:0.75rem;color:var(--text-muted);">desc</p>
+                </div>
+                <div class="card-footer">
+                    <a th:href="@{/cars/{id}(id=${car.id})}" class="btn-racing" style="font-size:0.7rem;padding:0.35rem 1rem;">Подробнее</a>
+                    <span class="small" style="color:var(--text-muted);font-size:0.7rem;"><i class="bi bi-clock"></i> <span th:text="${#temporals.format(car.createdAt, 'dd.MM.yyyy')}">date</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(recentCars)}" class="empty-racing">
+        <div class="empty-icon">🏎️</div>
+        <h4>Пока нет объявлений</h4>
+        <p>Будьте первым!</p>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,774 @@
+/* ===== RACING THEME ===== */
+:root {
+  --red: #E63946;
+  --red-dark: #C1121F;
+  --yellow: #FFD60A;
+  --orange: #FF6B35;
+  --blue-tele: #00B4D8;
+  --green: #06D6A0;
+  --carbon: #1a1a1a;
+  --carbon-light: #2a2a2a;
+  --carbon-lighter: #3a3a3a;
+  --bg-dark: #0d0d0d;
+  --bg-card: #1a1a1a;
+  --bg-card-hover: #222;
+  --text-primary: #eee;
+  --text-secondary: #999;
+  --text-muted: #666;
+  --border-color: #333;
+  --shadow: 0 4px 20px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 30px rgba(230,57,70,0.3);
+  --radius: 6px;
+  --font: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+a { color: var(--red); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--yellow); }
+
+::selection { background: var(--red); color: white; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb { background: var(--red); border-radius: 3px; }
+
+/* ===== Navbar ===== */
+.navbar-racing {
+  background: rgba(13,13,13,0.95) !important;
+  border-bottom: 2px solid var(--red);
+  backdrop-filter: blur(10px);
+}
+.navbar-racing .navbar-brand {
+  font-weight: 900;
+  font-size: 1.3rem;
+  color: var(--text-primary) !important;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.navbar-racing .navbar-brand span { color: var(--red); }
+.navbar-racing .nav-link {
+  color: var(--text-secondary) !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  padding: 0.5rem 1rem !important;
+  border-radius: 0;
+  transition: all var(--transition);
+  position: relative;
+}
+.navbar-racing .nav-link:hover,
+.navbar-racing .nav-link.active {
+  color: var(--yellow) !important;
+  background: rgba(255,214,10,0.05);
+}
+.navbar-racing .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--yellow);
+  transform: scaleX(0);
+  transition: transform var(--transition);
+}
+.navbar-racing .nav-link:hover::after,
+.navbar-racing .nav-link.active::after {
+  transform: scaleX(1);
+}
+
+/* ===== Category Bar ===== */
+.category-racing {
+  background: var(--carbon);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.5rem 0;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.category-racing::-webkit-scrollbar { display: none; }
+.category-racing .cat-link {
+  display: inline-block;
+  padding: 0.4rem 1.2rem;
+  margin: 0 2px;
+  border-radius: 0;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all var(--transition);
+  border: 1px solid transparent;
+}
+.category-racing .cat-link:hover,
+.category-racing .cat-link.active {
+  color: var(--yellow);
+  border-color: var(--yellow);
+  background: rgba(255,214,10,0.05);
+}
+
+/* ===== Hero ===== */
+.hero-racing {
+  position: relative;
+  min-height: 65vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0d0d0d 0%, #1a0000 40%, #0d0d0d 100%);
+}
+.hero-racing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(230,57,70,0.03) 40px, rgba(230,57,70,0.03) 41px),
+    repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(230,57,70,0.03) 40px, rgba(230,57,70,0.03) 41px);
+  pointer-events: none;
+}
+.hero-racing::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-conic-gradient(var(--red) 0% 25%, transparent 0% 50%) 0 0 / 40px 4px;
+}
+.hero-racing .hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 2rem;
+}
+.hero-racing h1 {
+  font-size: 4rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  color: white;
+  margin-bottom: 0.5rem;
+  text-shadow: 4px 4px 0 var(--red);
+}
+.hero-racing h1 span { color: var(--red); text-shadow: 2px 2px 0 white; }
+.hero-racing p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-weight: 600;
+}
+.hero-racing .hero-search {
+  max-width: 600px;
+  margin: 2rem auto 0;
+  display: flex;
+  gap: 0;
+  border: 2px solid var(--red);
+}
+.hero-racing .hero-search input {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  border: none;
+  background: rgba(255,255,255,0.05);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.hero-racing .hero-search input::placeholder { color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; }
+.hero-racing .hero-search input:focus { outline: none; background: rgba(255,255,255,0.08); }
+.hero-racing .hero-search button {
+  padding: 1rem 2rem;
+  border: none;
+  background: var(--red);
+  color: white;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-size: 0.85rem;
+}
+.hero-racing .hero-search button:hover { background: var(--red-dark); }
+
+/* ===== Cards ===== */
+.card-racing {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  transition: all var(--transition);
+  overflow: hidden;
+}
+.card-racing:hover {
+  border-color: var(--red);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-4px);
+}
+.card-racing .card-image {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16/10;
+  background: var(--carbon);
+}
+.card-racing .card-image img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.card-racing:hover .card-image img { transform: scale(1.05); }
+.card-racing .card-image .badge-corner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--red);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+}
+.card-racing .card-body { padding: 1rem; }
+.card-racing .card-title {
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+}
+.card-racing .card-subtitle { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+.card-racing .card-price {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--yellow);
+  margin-bottom: 0.5rem;
+}
+.card-racing .card-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.card-racing .card-specs .spec { color: var(--text-secondary); }
+.card-racing .card-specs .spec strong { color: var(--text-primary); }
+.card-racing .card-footer {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===== Buttons ===== */
+.btn-racing {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  background: var(--red);
+  color: white;
+  border: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+.btn-racing:hover { background: var(--red-dark); color: white; transform: translateX(2px); }
+.btn-racing-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1.2rem;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-racing-outline:hover { color: var(--yellow); border-color: var(--yellow); }
+.btn-racing-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  background: transparent;
+  color: var(--red);
+  border: 1px solid var(--red);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-racing-danger:hover { background: var(--red); color: white; }
+
+/* ===== Filter Panel ===== */
+.filter-racing {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 1.25rem;
+  position: sticky;
+  top: 80px;
+}
+.filter-racing .filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--red);
+}
+.filter-racing .filter-header h5 { font-weight: 800; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin: 0; }
+.filter-racing .filter-header a { font-size: 0.7rem; }
+.filter-racing .filter-section {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+.filter-racing .filter-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.filter-racing .filter-section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+.filter-racing .form-control,
+.filter-racing .form-select {
+  border-radius: 0;
+  border: 1px solid var(--border-color);
+  background: var(--carbon);
+  color: var(--text-primary);
+  padding: 0.4rem 0.5rem;
+  font-size: 0.8rem;
+  transition: all var(--transition);
+}
+.filter-racing .form-control:focus,
+.filter-racing .form-select:focus {
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 2px rgba(255,214,10,0.15);
+  outline: none;
+}
+.filter-racing .btn-apply {
+  width: 100%;
+  padding: 0.6rem;
+  background: var(--red);
+  color: white;
+  border: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.filter-racing .btn-apply:hover { background: var(--red-dark); }
+
+/* ===== Detail Page ===== */
+.detail-header-racing {
+  background: rgba(13,13,13,0.95);
+  border-bottom: 2px solid var(--red);
+  padding: 0.75rem 0;
+  backdrop-filter: blur(10px);
+}
+.detail-gallery {
+  position: relative;
+  overflow: hidden;
+}
+.detail-gallery .main-image {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid var(--border-color);
+  transition: border-color var(--transition);
+}
+.detail-gallery .main-image:hover { border-color: var(--red); }
+.detail-gallery .thumbnails {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+.detail-gallery .thumbnails img {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all var(--transition);
+  border: 2px solid transparent;
+}
+.detail-gallery .thumbnails img:hover,
+.detail-gallery .thumbnails img.active { opacity: 1; border-color: var(--red); }
+
+/* ===== Spec Bar ===== */
+.spec-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+.spec-bar .spec-label { flex: 0 0 100px; font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.spec-bar .spec-track { flex: 1; height: 6px; background: var(--carbon); }
+.spec-bar .spec-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--red), var(--yellow));
+  transition: width 0.8s ease;
+}
+.spec-bar .spec-value { flex: 0 0 60px; text-align: right; font-size: 0.8rem; font-weight: 700; color: var(--text-primary); }
+
+/* ===== Stats ===== */
+.stat-racing {
+  text-align: center;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+.stat-racing::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red), var(--yellow));
+}
+.stat-racing .stat-number {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--yellow);
+  line-height: 1;
+}
+.stat-racing .stat-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+/* ===== Speedometer (spec display) ===== */
+.speedo-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.speedo-item {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 1rem;
+  background: var(--carbon);
+  border: 1px solid var(--border-color);
+}
+.speedo-item .speedo-value {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--yellow);
+}
+.speedo-item .speedo-label {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+/* ===== Form ===== */
+.form-racing .form-control,
+.form-racing .form-select {
+  border-radius: 0;
+  border: 1px solid var(--border-color);
+  background: var(--carbon);
+  color: var(--text-primary);
+  padding: 0.6rem 0.8rem;
+  transition: all var(--transition);
+  font-size: 0.85rem;
+}
+.form-racing .form-control:focus,
+.form-racing .form-select:focus {
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 2px rgba(255,214,10,0.15);
+  outline: none;
+}
+.form-racing .form-label {
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  margin-bottom: 0.3rem;
+}
+.form-racing .form-text { color: var(--text-muted); font-size: 0.75rem; }
+
+/* ===== Image Dropzone ===== */
+.dropzone-racing {
+  border: 2px dashed var(--border-color);
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition);
+  background: var(--carbon);
+}
+.dropzone-racing:hover,
+.dropzone-racing.dragover { border-color: var(--red); background: rgba(230,57,70,0.05); }
+.dropzone-racing .dz-icon { font-size: 2.5rem; opacity: 0.5; }
+.dropzone-racing p { color: var(--text-secondary); font-size: 0.85rem; }
+
+/* ===== Auth ===== */
+.auth-racing {
+  max-width: 440px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+}
+.auth-racing .auth-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--red);
+}
+.auth-racing .auth-header h3 { font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--yellow); }
+.auth-racing .auth-header p { color: var(--text-secondary); font-size: 0.8rem; }
+
+/* ===== Lightbox ===== */
+.lightbox-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999;
+  display: none; align-items: center; justify-content: center;
+}
+.lightbox-overlay.active { display: flex; }
+.lightbox-overlay img { max-width: 90%; max-height: 90vh; border: 3px solid var(--red); }
+.lightbox-overlay .lightbox-close {
+  position: absolute; top: 1rem; right: 1.5rem;
+  width: 44px; height: 44px; border: 2px solid var(--red);
+  background: transparent; color: var(--red);
+  font-size: 1.5rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition);
+}
+.lightbox-overlay .lightbox-close:hover { background: var(--red); color: white; }
+
+/* ===== Footer ===== */
+.footer-racing {
+  background: #0a0a0a;
+  border-top: 3px solid var(--red);
+  padding: 2.5rem 0 1.5rem;
+  margin-top: 4rem;
+}
+.footer-racing h6 { font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 0.75rem; }
+.footer-racing a { color: var(--text-muted); font-size: 0.85rem; }
+.footer-racing a:hover { color: var(--yellow); }
+.footer-racing .footer-bottom {
+  border-top: 1px solid var(--border-color);
+  padding-top: 1.5rem;
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ===== Pagination / Load More ===== */
+.load-more-racing {
+  text-align: center;
+  padding: 2rem 0;
+}
+.load-more-racing button {
+  padding: 0.6rem 2rem;
+  background: var(--carbon);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.load-more-racing button:hover { border-color: var(--red); color: var(--red); }
+
+/* ===== Empty State ===== */
+.empty-racing {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+.empty-racing .empty-icon { font-size: 4rem; opacity: 0.2; margin-bottom: 1rem; }
+.empty-racing h4 { color: var(--text-secondary); font-weight: 300; }
+.empty-racing p { color: var(--text-muted); font-size: 0.85rem; }
+
+/* ===== Wizard Steps ===== */
+.wizard-racing {
+  display: flex;
+  gap: 0;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-color);
+}
+.wizard-racing .step {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  background: var(--carbon);
+  text-align: center;
+  border-right: 1px solid var(--border-color);
+  position: relative;
+}
+.wizard-racing .step:last-child { border-right: none; }
+.wizard-racing .step.active {
+  background: var(--red);
+  color: white;
+}
+.wizard-racing .step.completed {
+  background: var(--red-dark);
+  color: white;
+}
+
+/* ===== Tag Hero ===== */
+.tag-hero {
+  position: relative;
+  padding: 2.5rem 0;
+  background: linear-gradient(135deg, #1a0000 0%, var(--carbon) 50%, #1a1a00 100%);
+  border-bottom: 3px solid var(--red);
+  overflow: hidden;
+}
+.tag-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-conic-gradient(rgba(230,57,70,0.05) 0% 25%, transparent 0% 50%) 0 0 / 30px 30px;
+  pointer-events: none;
+}
+.tag-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: repeating-conic-gradient(var(--yellow) 0% 25%, transparent 0% 50%) 0 0 / 20px 3px;
+}
+.tag-hero-grid {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.tag-icon {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  background: var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+.tag-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin: 0;
+  color: white;
+}
+.tag-desc {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin: 0.25rem 0 0.5rem;
+}
+.tag-count {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--yellow);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.tag-hero-badge {
+  margin-left: auto;
+  text-align: center;
+  flex-shrink: 0;
+}
+.tag-hero-badge .tag-hero-number {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--yellow);
+  line-height: 1;
+}
+.tag-hero-badge .tag-hero-label {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+@media (max-width: 767.98px) {
+  .tag-hero-grid { flex-wrap: wrap; }
+  .tag-hero-badge { margin-left: 0; }
+}
+
+/* ===== Checkered accent ===== */
+.checkered {
+  background: repeating-conic-gradient(var(--red) 0% 25%, transparent 0% 50%) 0 0 / 20px 20px;
+  height: 6px;
+}
+
+/* ===== Alerts ===== */
+.alert-racing {
+  padding: 0.75rem 1rem;
+  border-left: 3px solid;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.alert-racing.alert-danger { background: rgba(230,57,70,0.1); border-color: var(--red); color: var(--red); }
+.alert-racing.alert-warning { background: rgba(255,214,10,0.1); border-color: var(--yellow); color: var(--yellow); }
+.alert-racing.alert-info { background: rgba(0,180,216,0.1); border-color: var(--blue-tele); color: var(--blue-tele); }
+.alert-racing.alert-success { background: rgba(6,214,160,0.1); border-color: var(--green); color: var(--green); }
+
+/* ===== Responsive ===== */
+@media (max-width: 991.98px) {
+  .hero-racing h1 { font-size: 2.5rem; }
+  .hero-racing { min-height: 50vh; }
+  .filter-racing { position: static; }
+}
+@media (max-width: 767.98px) {
+  .hero-racing h1 { font-size: 1.8rem; letter-spacing: 3px; }
+  .hero-racing .hero-search { flex-direction: column; }
+  .hero-racing .hero-search input,
+  .hero-racing .hero-search button { width: 100%; }
+  .card-racing .card-specs { grid-template-columns: 1fr; }
+  .wizard-racing { flex-direction: column; }
+  .wizard-racing .step { border-right: none; border-bottom: 1px solid var(--border-color); }
+}

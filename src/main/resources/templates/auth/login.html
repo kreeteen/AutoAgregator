@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="~{fragments :: head('Вход — ProjectCars Marketplace')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<div class="checkered"></div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="auth-racing">
+                <div class="auth-header">
+                    <i class="bi bi-box-arrow-in-right" style="font-size:2rem;color:var(--red);"></i>
+                    <h3>Вход</h3>
+                    <p>Войдите в аккаунт</p>
+                </div>
+                <div th:if="${error}" class="alert alert-racing alert-danger mb-3" th:text="${error}">err</div>
+                <form th:action="@{/login}" th:object="${loginRequest}" method="post" class="form-racing needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" th:field="*{email}" class="form-control" required placeholder="your@email.com">
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Пароль</label>
+                        <input type="password" th:field="*{password}" class="form-control" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn-racing w-100" style="justify-content:center;clip-path:none;border-radius:0;padding:0.75rem;"><i class="bi bi-box-arrow-in-right me-2"></i>Войти</button>
+                </form>
+                <p class="text-center mt-4 mb-0 small" style="color:var(--text-muted);">
+                    Нет аккаунта? <a th:href="@{/register}">Зарегистрироваться</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="~{fragments :: head(currentTag != null ? currentTag.name + ' — ProjectCars Marketplace' : 'Объявления')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<div th:replace="~{fragments :: categoryBar}"></div>
+
+<div class="tag-hero" th:if="${currentTag != null}">
+    <div class="container">
+        <div class="tag-hero-grid">
+            <div class="tag-icon"><i class="bi bi-speedometer2"></i></div>
+            <div>
+                <h1 class="tag-title" th:text="${currentTag.name}">Tag</h1>
+                <p class="tag-desc" th:text="${currentTag.description}">desc</p>
+                <span class="tag-count"><i class="bi bi-grid me-1"></i><span th:text="${#lists.size(cars)}">0</span> объявлений</span>
+            </div>
+            <div class="tag-hero-badge">
+                <div class="tag-hero-number" th:text="${#lists.size(cars)}">0</div>
+                <div class="tag-hero-label">ВСЕГО</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-4">
+
+    <div class="row g-4">
+        <div class="col-lg-3">
+            <div class="filter-racing">
+                <div class="filter-header">
+                    <h5><i class="bi bi-funnel me-2"></i>Фильтры</h5>
+                    <a th:href="@{/cars/tag/{id}(id=${currentTag.id})}" class="btn-racing-outline" style="padding:0.2rem 0.6rem;font-size:0.65rem;">Сброс</a>
+                </div>
+                <form th:action="@{/cars/tag/{id}(id=${currentTag.id})}" method="get">
+                    <div class="filter-section">
+                        <div class="filter-section-title">Марка</div>
+                        <select name="brandId" class="form-select" onchange="loadModels(this.value)">
+                            <option value="">Все</option>
+                            <option th:each="b : ${brands}" th:value="${b.id}" th:text="${b.name}" th:selected="${filter.brandId == b.id}"></option>
+                        </select>
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-section-title">Модель</div>
+                        <select name="modelId" id="modelSelect" class="form-select" onchange="loadGenerations(this.value)">
+                            <option value="">Все</option>
+                            <option th:each="m : ${models ?: {}}" th:value="${m.id}" th:text="${m.name}" th:selected="${filter.modelId == m.id}"></option>
+                        </select>
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-section-title">Поколение</div>
+                        <select name="generationId" id="generationSelect" class="form-select">
+                            <option value="">Все</option>
+                            <option th:each="g : ${generations ?: {}}" th:value="${g.id}" th:text="${g.name}" th:selected="${filter.generationId == g.id}"></option>
+                        </select>
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-section-title">Год</div>
+                        <div class="d-flex gap-2">
+                            <input type="number" name="minYear" class="form-control" th:value="${filter.minYear}" placeholder="От">
+                            <input type="number" name="maxYear" class="form-control" th:value="${filter.maxYear}" placeholder="До">
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-section-title">Цена, руб</div>
+                        <div class="d-flex gap-2">
+                            <input type="number" name="minPrice" class="form-control" th:value="${filter.minPrice}" placeholder="От">
+                            <input type="number" name="maxPrice" class="form-control" th:value="${filter.maxPrice}" placeholder="До">
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-section-title">Пробег, км</div>
+                        <div class="d-flex gap-2">
+                            <select name="minMileageKm" class="form-select">
+                                <option value="">От</option>
+                                <option th:each="v : ${kmOptions}" th:value="${v}" th:text="${v}" th:selected="${filter.minMileageKm != null and filter.minMileageKm == v}"></option>
+                            </select>
+                            <select name="maxMileageKm" class="form-select">
+                                <option value="">До</option>
+                                <option th:each="v : ${kmOptions}" th:value="${v}" th:text="${v}" th:selected="${filter.maxMileageKm != null and filter.maxMileageKm == v}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-section-title">Моточасы</div>
+                        <div class="d-flex gap-2">
+                            <select name="minMileageHours" class="form-select">
+                                <option value="">От</option>
+                                <option th:each="v : ${hourOptions}" th:value="${v}" th:text="${v}" th:selected="${filter.minMileageHours != null and filter.minMileageHours == v}"></option>
+                            </select>
+                            <select name="maxMileageHours" class="form-select">
+                                <option value="">До</option>
+                                <option th:each="v : ${hourOptions}" th:value="${v}" th:text="${v}" th:selected="${filter.maxMileageHours != null and filter.maxMileageHours == v}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-section-title">Двигатель</div>
+                        <select name="engineType" class="form-select">
+                            <option value="">Любой</option>
+                            <option value="Бензин" th:selected="${filter.engineType == 'Бензин'}">Бензин</option>
+                            <option value="Дизель" th:selected="${filter.engineType == 'Дизель'}">Дизель</option>
+                            <option value="Гибрид" th:selected="${filter.engineType == 'Гибрид'}">Гибрид</option>
+                            <option value="Электро" th:selected="${filter.engineType == 'Электро'}">Электро</option>
+                        </select>
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-section-title">Объём, л</div>
+                        <div class="d-flex gap-2">
+                            <select name="minEngineDisplacement" class="form-select">
+                                <option value="">От</option>
+                                <option th:each="v : ${engineDisplacementOptions}" th:value="${v}" th:text="${v}" th:selected="${filter.minEngineDisplacement != null and filter.minEngineDisplacement == v}"></option>
+                            </select>
+                            <select name="maxEngineDisplacement" class="form-select">
+                                <option value="">До</option>
+                                <option th:each="v : ${engineDisplacementOptions}" th:value="${v}" th:text="${v}" th:selected="${filter.maxEngineDisplacement != null and filter.maxEngineDisplacement == v}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-section-title">Мощность, л.с.</div>
+                        <div class="d-flex gap-2">
+                            <input type="number" name="minEnginePower" class="form-control" th:value="${filter.minEnginePower}" placeholder="От">
+                            <input type="number" name="maxEnginePower" class="form-control" th:value="${filter.maxEnginePower}" placeholder="До">
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-section-title">Кузов</div>
+                        <select name="bodyType" class="form-select">
+                            <option value="">Любой</option>
+                            <option th:each="bt : ${bodyTypes}" th:value="${bt}" th:text="${bt}" th:selected="${filter.bodyType == bt}"></option>
+                        </select>
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-section-title">Руль</div>
+                        <select name="steeringSide" class="form-select">
+                            <option value="">Любой</option>
+                            <option value="Левый" th:selected="${filter.steeringSide == 'Левый'}">Левый</option>
+                            <option value="Правый" th:selected="${filter.steeringSide == 'Правый'}">Правый</option>
+                        </select>
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-section-title">Состояние</div>
+                        <select name="damaged" class="form-select">
+                            <option value="">Любое</option>
+                            <option value="false" th:selected="${filter.damaged != null and !filter.damaged}">Не битый</option>
+                            <option value="true" th:selected="${filter.damaged != null and filter.damaged}">Битый</option>
+                        </select>
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-section-title">Учёт</div>
+                        <select name="registered" class="form-select">
+                            <option value="">Любой</option>
+                            <option value="true" th:selected="${filter.registered != null and filter.registered}">На учёте</option>
+                            <option value="false" th:selected="${filter.registered != null and !filter.registered}">Снят с учёта</option>
+                        </select>
+                    </div>
+                    <div class="filter-section" th:if="${tagMods != null and !#lists.isEmpty(tagMods)}">
+                        <div class="filter-section-title">Модификации</div>
+                        <div th:each="m : ${tagMods}">
+                            <div class="form-check mb-1">
+                                <input type="checkbox" th:id="'mod_' + ${m.id}" name="modCategoryIds" th:value="${m.id}" class="form-check-input"
+                                       th:checked="${filter.modCategoryIds != null and filter.modCategoryIds.contains(m.id)}">
+                                <label th:for="'mod_' + ${m.id}" class="form-check-label small" style="color:var(--text-secondary);" th:text="${m.name}">mod</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-racing mt-3" style="width:100%;justify-content:center;clip-path:none;border-radius:0;">Применить</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-9">
+            <div th:if="${#lists.isEmpty(cars)}" class="empty-racing">
+                <div class="empty-icon">🔍</div>
+                <h4>Ничего не найдено</h4>
+                <p>Попробуйте другие параметры</p>
+            </div>
+            <div class="row" th:if="${!#lists.isEmpty(cars)}">
+                <div class="col-md-6 col-lg-4 mb-4" th:each="car : ${cars}">
+                    <div class="card-racing">
+                        <div class="card-image">
+                            <div class="badge-corner" th:text="${car.projectTag.name}">tag</div>
+                            <img th:if="${!#lists.isEmpty(car.images)}" th:src="${car.images[0].filePath}" alt="">
+                            <div th:if="${#lists.isEmpty(car.images)}" style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-muted);font-size:3rem;">
+                                <i class="bi bi-car-front"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title" th:if="${car.carBrand != null}" th:text="${car.carBrand.name + ' ' + (car.carModel != null ? car.carModel.name : '')}">Make Model</div>
+                            <div class="card-title" th:if="${car.carBrand == null}">Без марки</div>
+                            <div class="card-subtitle">
+                                <i class="bi bi-calendar me-1"></i><span th:text="${car.manufactureYear}">2000</span>
+                                <i class="bi bi-geo-alt ms-2 me-1"></i><span th:text="${car.city}">City</span>
+                                <span th:if="${car.mileageKm != null}"><i class="bi bi-speedometer2 ms-2 me-1"></i><span th:text="${#numbers.formatDecimal(car.mileageKm, 0, 'DEFAULT', 0, 'DEFAULT') + ' км'}">0</span></span>
+                            </div>
+                            <div class="card-price" th:text="${#numbers.formatDecimal(car.price, 0, 'COMMA', 0, 'POINT') + ' руб.'}">price</div>
+                            <div class="card-specs">
+                                <div class="spec"><strong>Кузов:</strong> <span th:text="${car.bodyType}">sedan</span></div>
+                                <div class="spec" th:if="${car.enginePower != null}"><strong>Мощность:</strong> <span th:text="${car.enginePower + ' л.с.'}">0</span></div>
+                                <div class="spec" th:if="${car.engineDisplacement != null}"><strong>Объём:</strong> <span th:text="${car.engineDisplacement + ' л'}">0</span></div>
+                                <div class="spec"><strong>Модиф.:</strong> <span th:text="${#lists.size(car.selectedMods)}">0</span></div>
+                            </div>
+                            <p th:if="${car.description != null and #strings.length(car.description) > 80}" th:text="${#strings.substring(car.description, 0, 80) + '...'}" style="font-size:0.75rem;color:var(--text-muted);">desc</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex gap-2">
+                                <a th:href="@{/cars/{id}(id=${car.id})}" class="btn-racing" style="font-size:0.65rem;padding:0.3rem 0.8rem;">Подробнее</a>
+                                <a th:if="${isAuthenticated and currentUser.userId == car.user.id}" th:href="@{/cars/{id}/edit(id=${car.id})}" class="btn-racing-outline" style="font-size:0.65rem;padding:0.3rem 0.6rem;"><i class="bi bi-pencil"></i></a>
+                                <form th:if="${isAuthenticated and currentUser.userId == car.user.id}" th:action="@{/cars/{id}/delete(id=${car.id})}" method="post" style="display:inline;" onsubmit="return confirm('Удалить?')">
+                                    <input type="hidden" name="_csrf" th:value="${_csrf}">
+                                    <button type="submit" class="btn-racing-danger" style="font-size:0.65rem;padding:0.3rem 0.6rem;"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="load-more-racing">
+                <button onclick="this.innerHTML='Загрузка...';setTimeout(function(){location.reload()},1000);"><i class="bi bi-arrow-repeat me-2"></i>Загрузить ещё</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+<script>
+    var modelCache = {};
+    var genCache = {};
+    function loadModels(brandId) {
+        var modelSel = document.getElementById('modelSelect');
+        var genSel = document.getElementById('generationSelect');
+        modelSel.innerHTML = '<option value="">Загрузка...</option>';
+        genSel.innerHTML = '<option value="">Все поколения</option>';
+        if (!brandId) { modelSel.innerHTML = '<option value="">Все модели</option>'; return; }
+        if (modelCache[brandId]) { renderModels(modelSel, modelCache[brandId]); return; }
+        fetch('/cars/api/models?brandId=' + brandId)
+            .then(function(r) { return r.json(); })
+            .then(function(data) { modelCache[brandId] = data; renderModels(modelSel, data); });
+    }
+    function renderModels(sel, data) {
+        sel.innerHTML = '<option value="">Все модели</option>';
+        data.forEach(function(m) { var opt = document.createElement('option'); opt.value = m.id; opt.textContent = m.name; sel.appendChild(opt); });
+    }
+    function loadGenerations(modelId) {
+        var genSel = document.getElementById('generationSelect');
+        genSel.innerHTML = '<option value="">Загрузка...</option>';
+        if (!modelId) { genSel.innerHTML = '<option value="">Все поколения</option>'; return; }
+        if (genCache[modelId]) { renderGenerations(genSel, genCache[modelId]); return; }
+        fetch('/cars/api/generations?modelId=' + modelId)
+            .then(function(r) { return r.json(); })
+            .then(function(data) { genCache[modelId] = data; renderGenerations(genSel, data); });
+    }
+    function renderGenerations(sel, data) {
+        sel.innerHTML = '<option value="">Все поколения</option>';
+        data.forEach(function(g) { var opt = document.createElement('option'); opt.value = g.id; opt.textContent = g.name; sel.appendChild(opt); });
+    }
+</script>
+</body>
+</html>
