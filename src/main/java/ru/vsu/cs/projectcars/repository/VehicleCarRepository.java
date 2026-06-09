@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.vsu.cs.projectcars.model.VehicleCar;
@@ -27,4 +28,8 @@ public interface VehicleCarRepository extends JpaRepository<VehicleCar, Integer>
 
     @Query("SELECT v FROM VehicleCar v JOIN FETCH v.projectTag LEFT JOIN FETCH v.user LEFT JOIN FETCH v.carBrand LEFT JOIN FETCH v.carModel LEFT JOIN FETCH v.carGeneration LEFT JOIN FETCH v.region WHERE v.id = :id")
     Optional<VehicleCar> findByIdWithAll(@Param("id") Integer id);
+
+    @Modifying
+    @Query("UPDATE VehicleCar v SET v.viewsCount = COALESCE(v.viewsCount, 0) + 1 WHERE v.id = :id")
+    void incrementViewsCount(@Param("id") Integer id);
 }

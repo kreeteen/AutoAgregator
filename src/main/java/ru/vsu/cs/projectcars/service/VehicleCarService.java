@@ -21,4 +21,5 @@ public interface VehicleCarService {
     VehicleCar save(VehicleCar car);
     VehicleCar update(Integer id, VehicleCar car);
     void delete(Integer id);
+    void incrementView(Integer carId, String ip);
 }

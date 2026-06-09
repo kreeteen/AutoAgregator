@@ -17,9 +17,8 @@ import ru.vsu.cs.projectcars.repository.VehicleCarRepository;
 import ru.vsu.cs.projectcars.service.FileStorageService;
 import ru.vsu.cs.projectcars.service.VehicleCarService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -140,6 +139,23 @@ public class VehicleCarServiceImpl implements VehicleCarService {
     }
 
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(VehicleCarServiceImpl.class);
+
+    // In-memory view deduplication: IP -> (carId -> lastViewTimeMs)
+    private final ConcurrentHashMap<String, ConcurrentHashMap<Integer, Long>> viewTracker = new ConcurrentHashMap<>();
+    private static final long VIEW_COOLDOWN_MS = 900_000; // 15 min
+
+    @Override
+    @Transactional
+    public void incrementView(Integer carId, String ip) {
+        if (ip == null) ip = "unknown";
+        String key = ip;
+        long now = System.currentTimeMillis();
+        ConcurrentHashMap<Integer, Long> carViews = viewTracker.computeIfAbsent(key, k -> new ConcurrentHashMap<>());
+        Long lastView = carViews.get(carId);
+        if (lastView != null && now - lastView < VIEW_COOLDOWN_MS) return;
+        carViews.put(carId, now);
+        repository.incrementViewsCount(carId);
+    }
 
     @Override
     public VehicleCar update(Integer id, VehicleCar updated) {

@@ -154,10 +154,12 @@ public class VehicleCarController {
 
     @GetMapping("/{id}")
     public String detail(@PathVariable Integer id, Model model,
-                         @AuthenticationPrincipal JwtPrincipal principal) {
+                         @AuthenticationPrincipal JwtPrincipal principal,
+                         HttpServletRequest request) {
         Optional<VehicleCar> opt = carService.findByIdWithAll(id);
         if (opt.isEmpty()) return "redirect:/cars";
         VehicleCar car = opt.get();
+        carService.incrementView(id, request.getRemoteAddr());
         model.addAttribute("car", car);
         String brand = car.getCarBrand() != null ? car.getCarBrand().getName() : "";
         String modelName = car.getCarModel() != null ? car.getCarModel().getName() : "";
