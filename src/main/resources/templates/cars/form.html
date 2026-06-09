@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="~{fragments :: head(car.id != null ? 'Редактировать — ' + car.carBrand.name + ' ' + car.carModel.name : 'Новое объявление')}"></head>
+<head th:include="~{fragments :: head(${car.id != null and car.carBrand != null and car.carModel != null ? 'Редактировать — ' + car.carBrand.name + ' ' + car.carModel.name : 'Новое объявление'})}"></head>
 <body>
 <nav th:replace="~{fragments :: navbar}"></nav>
 
@@ -23,7 +23,8 @@
     </div>
 
     <form th:action="${car.id != null} ? @{/cars/{id}(id=${car.id})} : @{/cars}" th:object="${car}" method="post" class="form-racing needs-validation" novalidate enctype="multipart/form-data">
-        <input type="hidden" name="_csrf" th:value="${_csrf}">
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+        <input type="hidden" name="redirect" th:value="${redirect}" th:if="${redirect != null}">
 
         <div class="wizard-racing mb-4">
             <div class="step active">1. Основное</div>

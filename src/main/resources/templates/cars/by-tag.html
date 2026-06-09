@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="~{fragments :: head(currentTag != null ? currentTag.name + ' — ProjectCars Marketplace' : 'Объявления')}"></head>
+<head th:include="~{fragments :: head(${currentTag != null ? currentTag.name + ' — ProjectCars Marketplace' : 'Объявления'})}"></head>
 <body>
 <nav th:replace="~{fragments :: navbar}"></nav>
 <div th:replace="~{fragments :: categoryBar}"></div>
@@ -32,6 +32,16 @@
                     <a th:href="@{/cars/tag/{id}(id=${currentTag.id})}" class="btn-racing-outline" style="padding:0.2rem 0.6rem;font-size:0.65rem;">Сброс</a>
                 </div>
                 <form th:action="@{/cars/tag/{id}(id=${currentTag.id})}" method="get">
+                    <div class="filter-section" th:if="${tagMods != null and !#lists.isEmpty(tagMods)}">
+                        <div class="filter-section-title">Модификации</div>
+                        <div th:each="m : ${tagMods}">
+                            <div class="form-check mb-1">
+                                <input type="checkbox" th:id="'mod_' + ${m.id}" name="modCategoryIds" th:value="${m.id}" class="form-check-input"
+                                       th:checked="${filter.modCategoryIds != null and filter.modCategoryIds.contains(m.id)}">
+                                <label th:for="'mod_' + ${m.id}" class="form-check-label small" style="color:var(--text-secondary);" th:text="${m.name}">mod</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="filter-section">
                         <div class="filter-section-title">Марка</div>
                         <select name="brandId" class="form-select" onchange="loadModels(this.value)">
@@ -154,16 +164,6 @@
                             <option value="false" th:selected="${filter.registered != null and !filter.registered}">Снят с учёта</option>
                         </select>
                     </div>
-                    <div class="filter-section" th:if="${tagMods != null and !#lists.isEmpty(tagMods)}">
-                        <div class="filter-section-title">Модификации</div>
-                        <div th:each="m : ${tagMods}">
-                            <div class="form-check mb-1">
-                                <input type="checkbox" th:id="'mod_' + ${m.id}" name="modCategoryIds" th:value="${m.id}" class="form-check-input"
-                                       th:checked="${filter.modCategoryIds != null and filter.modCategoryIds.contains(m.id)}">
-                                <label th:for="'mod_' + ${m.id}" class="form-check-label small" style="color:var(--text-secondary);" th:text="${m.name}">mod</label>
-                            </div>
-                        </div>
-                    </div>
                     <button type="submit" class="btn-racing mt-3" style="width:100%;justify-content:center;clip-path:none;border-radius:0;">Применить</button>
                 </form>
             </div>
@@ -207,7 +207,7 @@
                                 <a th:href="@{/cars/{id}(id=${car.id})}" class="btn-racing" style="font-size:0.65rem;padding:0.3rem 0.8rem;">Подробнее</a>
                                 <a th:if="${isAuthenticated and currentUser.userId == car.user.id}" th:href="@{/cars/{id}/edit(id=${car.id})}" class="btn-racing-outline" style="font-size:0.65rem;padding:0.3rem 0.6rem;"><i class="bi bi-pencil"></i></a>
                                 <form th:if="${isAuthenticated and currentUser.userId == car.user.id}" th:action="@{/cars/{id}/delete(id=${car.id})}" method="post" style="display:inline;" onsubmit="return confirm('Удалить?')">
-                                    <input type="hidden" name="_csrf" th:value="${_csrf}">
+                                    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
                                     <button type="submit" class="btn-racing-danger" style="font-size:0.65rem;padding:0.3rem 0.6rem;"><i class="bi bi-trash"></i></button>
                                 </form>
                             </div>

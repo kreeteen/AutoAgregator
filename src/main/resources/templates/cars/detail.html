@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="~{fragments :: head((car.carBrand != null ? car.carBrand.name : '') + ' ' + (car.carModel != null ? car.carModel.name : '') + ' — ProjectCars Marketplace')}"></head>
+<head th:include="~{fragments :: head(${pageTitle})}"></head>
 <body>
 <nav th:replace="~{fragments :: navbar}"></nav>
 <div th:replace="~{fragments :: categoryBar}"></div>
@@ -74,7 +74,7 @@
                             <div class="spec-bar">
                                 <span class="spec-label">Мощность</span>
                                 <div class="spec-track">
-                                    <div class="spec-fill" th:style="'width:' + (car.enginePower / 6) + '%'"></div>
+                                    <div class="spec-fill" th:style="${'width:' + car.enginePower / 6 + '%'}"></div>
                                 </div>
                                 <span class="spec-value" th:text="${car.enginePower + ' л.с.'}">200</span>
                             </div>
@@ -83,7 +83,7 @@
                             <div class="spec-bar">
                                 <span class="spec-label">Пробег</span>
                                 <div class="spec-track">
-                                    <div class="spec-fill" th:style="'width:' + (car.mileageKm / 5000) + '%'"></div>
+                                    <div class="spec-fill" th:style="${'width:' + car.mileageKm / 5000 + '%'}"></div>
                                 </div>
                                 <span class="spec-value" th:text="${#numbers.formatDecimal(car.mileageKm, 0, 'DEFAULT', 0, 'DEFAULT') + ' км'}">0</span>
                             </div>
@@ -164,12 +164,13 @@
 
 <footer th:replace="~{fragments :: footer}"></footer>
 
-<script th:inline="javascript">
-    var carId = [[${car.id}]];
+<input type="hidden" id="carIdData" th:value="${car.id}" />
+<script>
+    var carId = parseInt(document.getElementById('carIdData').value);
     function revealPhone() {
         fetch('/api/cars/' + carId + '/phone').then(function(r) { return r.text(); }).then(function(phone) {
             var el = document.getElementById('phoneDisplay');
-            el.textContent = '📞 ' + phone;
+            el.textContent = '\uD83D\uDCDE ' + phone;
             el.style.display = 'block';
         });
     }

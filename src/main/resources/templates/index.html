@@ -7,7 +7,7 @@
 <section class="hero-racing">
     <div class="hero-content">
         <h1>PROJECT<span>CARS</span></h1>
-        <p>Дрифт · Станс · Оффроуд · Драг · Трек</p>
+        <p>Дрифт · Станс · Оффроуд · Драг </p>
         <div class="hero-search">
             <form th:action="@{/cars}" method="get" style="display:contents;">
                 <input type="text" name="query" placeholder="Поиск по марке, модели..." th:value="${param.query}">
@@ -35,8 +35,8 @@
         </div>
         <div class="col-md-4">
             <div class="stat-racing">
-                <div class="stat-number">24/7</div>
-                <div class="stat-label">Поддержка</div>
+                <div class="stat-number" th:text="${totalUsers}">0</div>
+                <div class="stat-label">Зарегистрировано пользователей</div>
             </div>
         </div>
     </div>

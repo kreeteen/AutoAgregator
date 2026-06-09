@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="~{fragments :: head('Ошибка')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<div class="container py-5 text-center">
+    <h2 class="mb-4">Произошла ошибка</h2>
+    <p th:if="${exception}" class="text-danger fw-bold" th:text="${exception}"></p>
+    <p th:text="${message} ?: 'Неизвестная ошибка'">Сообщение об ошибке</p>
+    <a th:href="@{/cars}" class="btn-racing mt-3">На главную</a>
+</div>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

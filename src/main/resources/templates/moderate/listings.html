@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head('Модерация объявлений — ProjectCars')}"></head>
+<body>
+<nav th:replace="~{fragments::navbar}"></nav>
+<div class="container mt-4">
+    <h2><i class="bi bi-shield-check me-2"></i>Модерация объявлений</h2>
+    <p class="text-muted mb-3">Список всех объявлений на платформе. Доступно только удаление.</p>
+    <div th:if="${#lists.isEmpty(cars)}" class="empty-racing">
+        <div class="empty-icon"><i class="bi bi-inbox"></i></div>
+        <h4>Нет объявлений для модерации</h4>
+    </div>
+    <div class="table-responsive" th:unless="${#lists.isEmpty(cars)}">
+        <table class="table table-dark table-hover admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Пользователь</th>
+                    <th>Цена</th>
+                    <th>Год</th>
+                    <th>Город</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="c : ${cars}">
+                    <td th:text="${c.id}">1</td>
+                    <td>
+                        <a th:href="@{/cars/{id}(id=${c.id})}" th:text="${c.carBrand != null ? c.carBrand.name + ' ' + c.carModel.name : 'Без бренда'}">Car</a>
+                    </td>
+                    <td th:text="${c.user != null ? c.user.email : '—'}">user@test.ru</td>
+                    <td th:text="${c.price != null ? #numbers.formatDecimal(c.price, 0, 'COMMA', 0, 'POINT') + ' ₽' : '—'}">1 000 000 ₽</td>
+                    <td th:text="${c.manufactureYear}">1998</td>
+                    <td th:text="${c.city}">Москва</td>
+                    <td>
+                        <form th:action="@{/moderate/cars/{id}/delete(id=${c.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Удалить объявление?')">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div th:replace="~{fragments::footer}"></div>
+</body>
+</html>

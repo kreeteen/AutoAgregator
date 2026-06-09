@@ -17,6 +17,8 @@
                 </div>
                 <div th:if="${error}" class="alert alert-racing alert-danger mb-3" th:text="${error}">err</div>
                 <form th:action="@{/register}" th:object="${registerRequest}" method="post" class="form-racing needs-validation" novalidate>
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+                    <input type="hidden" name="redirect" th:value="${redirectUrl}">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">Имя *</label>
@@ -42,7 +44,7 @@
                     <button type="submit" class="btn-racing w-100" style="justify-content:center;clip-path:none;border-radius:0;padding:0.75rem;margin-top:1rem;"><i class="bi bi-person-plus me-2"></i>Зарегистрироваться</button>
                 </form>
                 <p class="text-center mt-4 mb-0 small" style="color:var(--text-muted);">
-                    Уже есть аккаунт? <a th:href="@{/login}">Войти</a>
+                    Уже есть аккаунт? <a th:href="@{/login(redirect=${redirectUrl})}">Войти</a>
                 </p>
             </div>
         </div>

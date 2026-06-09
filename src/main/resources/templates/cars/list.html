@@ -196,7 +196,7 @@
                                 <a th:href="@{/cars/{id}(id=${car.id})}" class="btn-racing" style="font-size:0.65rem;padding:0.3rem 0.8rem;">Подробнее</a>
                                 <a th:if="${isAuthenticated and currentUser.userId == car.user.id}" th:href="@{/cars/{id}/edit(id=${car.id})}" class="btn-racing-outline" style="font-size:0.65rem;padding:0.3rem 0.6rem;"><i class="bi bi-pencil"></i></a>
                                 <form th:if="${isAuthenticated and currentUser.userId == car.user.id}" th:action="@{/cars/{id}/delete(id=${car.id})}" method="post" style="display:inline;" onsubmit="return confirm('Удалить?')">
-                                    <input type="hidden" name="_csrf" th:value="${_csrf}">
+                                    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
                                     <button type="submit" class="btn-racing-danger" style="font-size:0.65rem;padding:0.3rem 0.6rem;"><i class="bi bi-trash"></i></button>
                                 </form>
                             </div>
