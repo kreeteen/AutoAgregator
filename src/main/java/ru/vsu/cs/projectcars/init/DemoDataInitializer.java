@@ -111,61 +111,61 @@ public class DemoDataInitializer implements CommandLineRunner {
                 "Москва", moscow, "Легендарная Supra для дрифта. Полностью подготовлена.",
                 List.of(driftMods.get(0), driftMods.get(1), driftMods.get(2), driftMods.get(3)),
                 120000, null, "Бензин", 3.0, 320, "Купе", false, "Левый", true,
-                findBrand(brandModelGen, "Toyota"), findModel(brandModelGen, "Toyota", "Supra"), null);
+                findBrand(brandModelGen, "Toyota"), findModel(brandModelGen, "Toyota", "Supra"), null, "/uploads/1/photo1.jpg");
 
         saveCar(user1, drift, 2001, new BigDecimal("2800000"),
                 "Санкт-Петербург", spb, "Spec-R, конверсия на дрифт. Минимум ржавчины.",
                 List.of(driftMods.get(0), driftMods.get(1), driftMods.get(4)),
                 95000, null, "Бензин", 2.0, 250, "Купе", false, "Правый", true,
-                findBrand(brandModelGen, "Nissan"), findModel(brandModelGen, "Nissan", "Silvia"), null);
+                findBrand(brandModelGen, "Nissan"), findModel(brandModelGen, "Nissan", "Silvia"), null, "/uploads/2/photo2.jpg");
 
         saveCar(user2, stance, 1994, new BigDecimal("1500000"),
                 "Москва", moscow, "Полностью перекрашен, пневма Air Lift, диски Work.",
                 List.of(stanceMods.get(0), stanceMods.get(1), stanceMods.get(2), stanceMods.get(4)),
                 210000, null, "Бензин", 2.5, 192, "Седан", false, "Левый", true,
-                findBrand(brandModelGen, "BMW"), findModel(brandModelGen, "BMW", "3 Series"), null);
+                findBrand(brandModelGen, "BMW"), findModel(brandModelGen, "BMW", "3 Series"), null, "/uploads/3/photo3.jpg");
 
         saveCar(user1, drag, 2008, new BigDecimal("5500000"),
                 "Краснодар", krasnodar, "LS3 с Procharger, 9.2 сек на четверть мили.",
                 List.of(dragMods.get(0), dragMods.get(2), dragMods.get(3), dragMods.get(4)),
                 65000, null, "Бензин", 6.2, 436, "Купе", false, "Левый", true,
-                findBrand(brandModelGen, "Chevrolet"), findModel(brandModelGen, "Chevrolet", "Corvette"), null);
+                findBrand(brandModelGen, "Chevrolet"), findModel(brandModelGen, "Chevrolet", "Corvette"), null, "/uploads/1/photo1.jpg");
 
         saveCar(user2, drift, 1996, new BigDecimal("3200000"),
                 "Нижний Новгород", nnovgorod, "13B-REW, BorgWarner EFR 9180, полная подготовка к дрифту.",
                 List.of(driftMods.get(0), driftMods.get(1), driftMods.get(2)),
                 98000, null, "Бензин", 1.3, 280, "Купе", false, "Правый", true,
-                findBrand(brandModelGen, "Mazda"), findModel(brandModelGen, "Mazda", "RX-7"), null);
+                findBrand(brandModelGen, "Mazda"), findModel(brandModelGen, "Mazda", "RX-7"), null, "/uploads/1/photo1.jpg");
 
         saveCar(user1, stance, 2006, new BigDecimal("4200000"),
                 "Екатеринбург", ekb, "Time Attack, 4G63 550л.с., секвенталка, каркас.",
                 List.of(stanceMods.get(0), stanceMods.get(3), stanceMods.get(4), stanceMods.get(1)),
                 85000, null, "Бензин", 2.0, 280, "Седан", false, "Левый", true,
-                findBrand(brandModelGen, "Mitsubishi"), findModel(brandModelGen, "Mitsubishi", "Lancer Evolution"), null);
+                findBrand(brandModelGen, "Mitsubishi"), findModel(brandModelGen, "Mitsubishi", "Lancer Evolution"), null, "/uploads/1/photo1.jpg");
 
         saveCar(user3, offroad, 2018, new BigDecimal("3500000"),
                 "Казань", tatarstan, "Надёжный внедорожник для экспедиций.",
                 List.of(offroadMods.get(0), offroadMods.get(1), offroadMods.get(2), offroadMods.get(3), offroadMods.get(4)),
                 120000, 4500, "Дизель", 3.0, 177, "Внедорожник", false, "Левый", true,
-                findBrand(brandModelGen, "Toyota"), findModel(brandModelGen, "Toyota", "Land Cruiser Prado"), null);
+                findBrand(brandModelGen, "Toyota"), findModel(brandModelGen, "Toyota", "Land Cruiser Prado"), null, "/uploads/1/photo1.jpg");
 
         saveCar(user2, drag, 2019, new BigDecimal("8900000"),
                 "Ростов-на-Дону", rostov, "Hellcat! 717 л.с., полный сток.",
                 List.of(dragMods.get(0), dragMods.get(2)),
                 22000, null, "Бензин", 6.2, 717, "Купе", false, "Левый", true,
-                findBrand(brandModelGen, "Dodge"), findModel(brandModelGen, "Dodge", "Challenger"), null);
+                findBrand(brandModelGen, "Dodge"), findModel(brandModelGen, "Dodge", "Challenger"), null, "/uploads/1/photo1.jpg");
 
         saveCar(user3, offroad, 2021, new BigDecimal("1200000"),
                 "Новосибирск", novosibirsk, "Полный привод, лебедка, шноркель. Подготовлен к бездорожью.",
                 List.of(offroadMods.get(0), offroadMods.get(1), offroadMods.get(2), offroadMods.get(3), offroadMods.get(4)),
                 45000, 1800, "Бензин", 2.7, 135, "Внедорожник", false, "Левый", true,
-                findBrand(brandModelGen, "УАЗ"), null, null);
+                findBrand(brandModelGen, "УАЗ"), null, null, "/uploads/1/photo1.jpg");
 
         saveCar(user1, drift, 2017, new BigDecimal("9500000"),
                 "Москва", moscow, "Godzilla! VR38DETT, полный привод, подготовка к дрифту.",
                 List.of(driftMods.get(0), driftMods.get(1), driftMods.get(2), driftMods.get(3)),
                 58000, null, "Бензин", 3.8, 570, "Купе", false, "Левый", true,
-                findBrand(brandModelGen, "Nissan"), findModel(brandModelGen, "Nissan", "GT-R"), null);
+                findBrand(brandModelGen, "Nissan"), findModel(brandModelGen, "Nissan", "GT-R"), null, "/uploads/1/photo1.jpg");
 
         // ====== ADDITIONAL DEMO LISTINGS ======
 
@@ -175,65 +175,65 @@ public class DemoDataInitializer implements CommandLineRunner {
                 List.of(driftMods.get(4), driftMods.get(3)),
                 250000, null, "Бензин", 2.0, 140, "Седан", false, "Левый", true,
                 findBrand(brandModelGen, "BMW"), findModel(brandModelGen, "BMW", "3 Series"),
-                findGen(brandModelGen, "BMW", "3 Series", "E36"));
+                findGen(brandModelGen, "BMW", "3 Series", "E36"), "/uploads/1/photo1.jpg");
 
         saveCar(user3, stance, 1998, new BigDecimal("350000"),
                 "Самара", samara, "Дёшево, сердито, на развал. Хороший донор.",
                 List.of(stanceMods.get(1), stanceMods.get(3)),
                 280000, null, "Бензин", 1.6, 90, "Седан", true, "Левый", false,
-                findBrand(brandModelGen, "LADA"), findModel(brandModelGen, "LADA", "Granta"), null);
+                findBrand(brandModelGen, "LADA"), findModel(brandModelGen, "LADA", "Granta"), null, "/uploads/1/photo1.jpg");
 
         saveCar(user1, offroad, 1992, new BigDecimal("250000"),
                 "Волгоград", volgograd, "Классика бездорожья. Ржавый, но живой.",
                 List.of(offroadMods.get(0), offroadMods.get(3)),
                 320000, 8000, "Бензин", 2.5, 80, "Внедорожник", true, "Левый", false,
-                findBrand(brandModelGen, "УАЗ"), findModel(brandModelGen, "УАЗ", "Буханка"), null);
+                findBrand(brandModelGen, "УАЗ"), findModel(brandModelGen, "УАЗ", "Буханка"), null, "/uploads/1/photo1.jpg");
 
         // --- Элитные / дорогие ---
         saveCar(user1, drag, 2022, new BigDecimal("25000000"),
                 "Москва", moscow, "McLaren 720S Performance, полный карбон, трековый пакет.",
                 List.of(dragMods.get(2), dragMods.get(4)),
                 15000, null, "Бензин", 4.0, 720, "Купе", false, "Левый", true,
-                findBrand(brandModelGen, "McLaren"), findModel(brandModelGen, "McLaren", "720S"), null);
+                findBrand(brandModelGen, "McLaren"), findModel(brandModelGen, "McLaren", "720S"), null, "/uploads/1/photo1.jpg");
 
         saveCar(user3, drift, 2023, new BigDecimal("18000000"),
                 "Казань", tatarstan, "Nissan GT-R R35 Nur Spec, 800+ л.с., полная подготовка.",
                 List.of(driftMods.get(0), driftMods.get(1), driftMods.get(2), driftMods.get(3), driftMods.get(4)),
                 5000, null, "Бензин", 3.8, 600, "Купе", false, "Левый", true,
-                findBrand(brandModelGen, "Nissan"), findModel(brandModelGen, "Nissan", "GT-R"), null);
+                findBrand(brandModelGen, "Nissan"), findModel(brandModelGen, "Nissan", "GT-R"), null, "/uploads/1/photo1.jpg");
 
         saveCar(user2, stance, 2021, new BigDecimal("12500000"),
                 "Москва", moscow, "Porsche 911 Turbo S, широкий кузов TechArt, Air Lift.",
                 List.of(stanceMods.get(0), stanceMods.get(1), stanceMods.get(3)),
                 18000, null, "Бензин", 3.8, 650, "Купе", false, "Левый", true,
                 findBrand(brandModelGen, "Porsche"), findModel(brandModelGen, "Porsche", "911"),
-                findGen(brandModelGen, "Porsche", "911", "992"));
+                findGen(brandModelGen, "Porsche", "911", "992"), "/uploads/1/photo1.jpg");
 
         saveCar(user1, offroad, 2020, new BigDecimal("15000000"),
                 "Москва", moscow, "Mercedes-Benz G-Class Brabus 700 Widestar. Всё включено.",
                 List.of(offroadMods.get(0), offroadMods.get(2), offroadMods.get(3), offroadMods.get(4)),
                 35000, 1200, "Бензин", 4.0, 700, "Внедорожник", false, "Левый", true,
                 findBrand(brandModelGen, "Mercedes-Benz"), findModel(brandModelGen, "Mercedes-Benz", "G-Class"),
-                findGen(brandModelGen, "Mercedes-Benz", "G-Class", "W463A"));
+                findGen(brandModelGen, "Mercedes-Benz", "G-Class", "W463A"), "/uploads/1/photo1.jpg");
 
         // --- Правый руль / JDM ---
         saveCar(user2, drift, 1996, new BigDecimal("2200000"),
                 "Владивосток", vladivostok, "Настоящий JDM, правый руль, 1JZ-GTE.",
                 List.of(driftMods.get(0), driftMods.get(1), driftMods.get(2), driftMods.get(4)),
                 130000, null, "Бензин", 2.5, 280, "Седан", false, "Правый", true,
-                findBrand(brandModelGen, "Toyota"), findModel(brandModelGen, "Toyota", "Chaser"), null);
+                findBrand(brandModelGen, "Toyota"), findModel(brandModelGen, "Toyota", "Chaser"), null, "/uploads/1/photo1.jpg");
 
         saveCar(user1, drift, 1993, new BigDecimal("1800000"),
                 "Хабаровск", khabarovsk, "Silvia Q's, SR20DE, целиком на запчасти или проект.",
                 List.of(driftMods.get(0), driftMods.get(3)),
                 180000, null, "Бензин", 2.0, 160, "Купе", false, "Правый", false,
-                findBrand(brandModelGen, "Nissan"), findModel(brandModelGen, "Nissan", "Silvia"), null);
+                findBrand(brandModelGen, "Nissan"), findModel(brandModelGen, "Nissan", "Silvia"), null, "/uploads/1/photo1.jpg");
 
         saveCar(user3, drag, 2002, new BigDecimal("8500000"),
                 "Владивосток", vladivostok, "Супра 2JZ-GTE, билд 900+ л.с., секвенталка.",
                 List.of(dragMods.get(0), dragMods.get(2), dragMods.get(3), dragMods.get(4)),
                 95000, null, "Бензин", 3.0, 320, "Купе", false, "Правый", true,
-                findBrand(brandModelGen, "Toyota"), findModel(brandModelGen, "Toyota", "Supra"), null);
+                findBrand(brandModelGen, "Toyota"), findModel(brandModelGen, "Toyota", "Supra"), null, "/uploads/1/photo1.jpg");
 
         // --- Дизельные ---
         saveCar(user2, offroad, 2015, new BigDecimal("4800000"),
@@ -241,21 +241,21 @@ public class DemoDataInitializer implements CommandLineRunner {
                 List.of(offroadMods.get(0), offroadMods.get(1), offroadMods.get(2), offroadMods.get(3)),
                 95000, 3200, "Дизель", 4.5, 200, "Внедорожник", false, "Левый", true,
                 findBrand(brandModelGen, "Toyota"), findModel(brandModelGen, "Toyota", "Land Cruiser 200"),
-                findGen(brandModelGen, "Toyota", "Land Cruiser 200", "200"));
+                findGen(brandModelGen, "Toyota", "Land Cruiser 200", "200") ,"/uploads/1/photo1.jpg");
 
         saveCar(user3, drag, 2016, new BigDecimal("3200000"),
                 "Калининград", kaliningrad, "Passat B8 BiTDI, Stage 2, 4Motion.",
                 List.of(dragMods.get(0), dragMods.get(3)),
                 120000, null, "Дизель", 2.0, 240, "Универсал", false, "Левый", true,
                 findBrand(brandModelGen, "Volkswagen"), findModel(brandModelGen, "Volkswagen", "Passat"),
-                findGen(brandModelGen, "Volkswagen", "Passat", "B8"));
+                findGen(brandModelGen, "Volkswagen", "Passat", "B8") ,"/uploads/1/photo1.jpg");
 
         saveCar(user1, stance, 2019, new BigDecimal("2100000"),
                 "Симферополь", krym, "BMW X3 G01 M40d, спортивный дизель.",
                 List.of(stanceMods.get(0), stanceMods.get(3)),
                 65000, null, "Дизель", 3.0, 326, "Кроссовер", false, "Левый", true,
                 findBrand(brandModelGen, "BMW"), findModel(brandModelGen, "BMW", "X3"),
-                findGen(brandModelGen, "BMW", "X3", "G01"));
+                findGen(brandModelGen, "BMW", "X3", "G01"), "/uploads/1/photo1.jpg");
 
         // --- Электро и Гибрид ---
         saveCar(user2, drag, 2023, new BigDecimal("9500000"),
@@ -263,14 +263,14 @@ public class DemoDataInitializer implements CommandLineRunner {
                 List.of(dragMods.get(3), dragMods.get(4)),
                 25000, null, "Электро", null, 499, "Седан", false, "Левый", true,
                 findBrand(brandModelGen, "Tesla"), findModel(brandModelGen, "Tesla", "Model 3"),
-                findGen(brandModelGen, "Tesla", "Model 3", "I"));
+                findGen(brandModelGen, "Tesla", "Model 3", "I"), "/uploads/1/photo1.jpg");
 
         saveCar(user3, stance, 2021, new BigDecimal("5600000"),
                 "Тюмень", tyumen, "Lexus RX450h Luxury, кожа, панорама.",
                 List.of(stanceMods.get(0), stanceMods.get(3), stanceMods.get(4)),
                 55000, null, "Гибрид", 3.5, 313, "Кроссовер", false, "Левый", true,
                 findBrand(brandModelGen, "Lexus"), findModel(brandModelGen, "Lexus", "RX"),
-                findGen(brandModelGen, "Lexus", "RX", "XU50"));
+                findGen(brandModelGen, "Lexus", "RX", "XU50"), "/uploads/1/photo1.jpg");
 
         // --- Битые / аварийные ---
         saveCar(user3, drift, 2006, new BigDecimal("550000"),
@@ -278,21 +278,21 @@ public class DemoDataInitializer implements CommandLineRunner {
                 List.of(driftMods.get(0), driftMods.get(3)),
                 200000, null, "Бензин", 2.2, 170, "Купе", true, "Левый", false,
                 findBrand(brandModelGen, "BMW"), findModel(brandModelGen, "BMW", "3 Series"),
-                findGen(brandModelGen, "BMW", "3 Series", "E46"));
+                findGen(brandModelGen, "BMW", "3 Series", "E46"), "/uploads/1/photo1.jpg");
 
         saveCar(user1, stance, 2008, new BigDecimal("350000"),
                 "Омск", omsk, "Битая передняя часть, под проект стэнс.",
                 List.of(stanceMods.get(1), stanceMods.get(4)),
                 190000, null, "Бензин", 1.5, 105, "Хэтчбек", true, "Левый", true,
                 findBrand(brandModelGen, "Honda"), findModel(brandModelGen, "Honda", "Civic"),
-                findGen(brandModelGen, "Honda", "Civic", "FD"));
+                findGen(brandModelGen, "Honda", "Civic", "FD"), "/uploads/1/photo1.jpg");
 
         saveCar(user2, drag, 2012, new BigDecimal("450000"),
                 "Красноярск", krasnoyarsk, "Битая, удар в зад. Двигатель живой.",
                 List.of(dragMods.get(2)),
                 150000, null, "Бензин", 1.4, 140, "Седан", true, "Левый", false,
                 findBrand(brandModelGen, "Ford"), findModel(brandModelGen, "Ford", "Focus"),
-                findGen(brandModelGen, "Ford", "Focus", "III"));
+                findGen(brandModelGen, "Ford", "Focus", "III"), "/uploads/1/photo1.jpg");
 
         // --- С большим пробегом ---
         saveCar(user1, offroad, 2005, new BigDecimal("1200000"),
@@ -300,20 +300,20 @@ public class DemoDataInitializer implements CommandLineRunner {
                 List.of(offroadMods.get(0), offroadMods.get(3)),
                 380000, 9500, "Дизель", 3.0, 163, "Внедорожник", false, "Левый", true,
                 findBrand(brandModelGen, "Toyota"), findModel(brandModelGen, "Toyota", "Land Cruiser Prado"),
-                findGen(brandModelGen, "Toyota", "Land Cruiser Prado", "120"));
+                findGen(brandModelGen, "Toyota", "Land Cruiser Prado", "120"), "/uploads/1/photo1.jpg");
 
         // --- Спорткупе / кабриолеты ---
         saveCar(user2, drag, 2021, new BigDecimal("7500000"),
                 "Краснодар", krasnodar, "Mercedes-AMG GT 63S 4-Door Coupe.",
                 List.of(dragMods.get(0), dragMods.get(2), dragMods.get(4)),
                 35000, null, "Бензин", 4.0, 639, "Купе", false, "Левый", true,
-                findBrand(brandModelGen, "Mercedes-Benz"), findModel(brandModelGen, "Mercedes-Benz", "AMG GT"), null);
+                findBrand(brandModelGen, "Mercedes-Benz"), findModel(brandModelGen, "Mercedes-Benz", "AMG GT"), null, "/uploads/1/photo1.jpg");
 
         saveCar(user3, stance, 2016, new BigDecimal("3200000"),
                 "Ростов-на-Дону", rostov, "Mazda MX-5 ND, пневма, работа.",
                 List.of(stanceMods.get(0), stanceMods.get(1), stanceMods.get(4)),
                 42000, null, "Бензин", 2.0, 160, "Кабриолет", false, "Левый", true,
-                findBrand(brandModelGen, "Mazda"), findModel(brandModelGen, "Mazda", "MX-5 Miata"), null);
+                findBrand(brandModelGen, "Mazda"), findModel(brandModelGen, "Mazda", "MX-5 Miata"), null, "/uploads/1/photo1.jpg");
 
         // --- Седаны представительского класса ---
         saveCar(user1, stance, 2020, new BigDecimal("11000000"),
@@ -321,28 +321,28 @@ public class DemoDataInitializer implements CommandLineRunner {
                 List.of(stanceMods.get(0), stanceMods.get(3), stanceMods.get(4)),
                 45000, null, "Бензин", 4.7, 455, "Седан", false, "Левый", true,
                 findBrand(brandModelGen, "Mercedes-Benz"), findModel(brandModelGen, "Mercedes-Benz", "S-Class"),
-                findGen(brandModelGen, "Mercedes-Benz", "S-Class", "W222"));
+                findGen(brandModelGen, "Mercedes-Benz", "S-Class", "W222"), "/uploads/1/photo1.jpg");
 
         // --- Грузовые / микроавтобусы ---
         saveCar(user3, offroad, 2020, new BigDecimal("2500000"),
                 "Москва", moscow, "Transit для экспедиций, переоборудован, полный привод.",
                 List.of(offroadMods.get(0), offroadMods.get(1), offroadMods.get(2)),
                 80000, 2500, "Дизель", 2.0, 130, "Микроавтобус", false, "Левый", true,
-                findBrand(brandModelGen, "Ford"), findModel(brandModelGen, "Ford", "Transit"), null);
+                findBrand(brandModelGen, "Ford"), findModel(brandModelGen, "Ford", "Transit"), null, "/uploads/1/photo1.jpg");
 
         // --- Маленький объём двигателя ---
         saveCar(user2, drift, 2005, new BigDecimal("150000"),
                 "Воронеж", voronezh, "Маленький литраж, отличный старт в дрифт.",
                 List.of(driftMods.get(4), driftMods.get(3)),
                 150000, null, "Бензин", 1.3, 85, "Хэтчбек", false, "Левый", true,
-                findBrand(brandModelGen, "LADA"), findModel(brandModelGen, "LADA", "Granta"), null);
+                findBrand(brandModelGen, "LADA"), findModel(brandModelGen, "LADA", "Granta"), null, "/uploads/1/photo1.jpg");
 
         // --- Снятые с учёта ---
         saveCar(user1, offroad, 1998, new BigDecimal("800000"),
                 "Новосибирск", novosibirsk, "Снят с учёта для бездорожья.",
                 List.of(offroadMods.get(0), offroadMods.get(1), offroadMods.get(3)),
                 250000, 7000, "Бензин", 4.0, 180, "Внедорожник", true, "Левый", false,
-                findBrand(brandModelGen, "Nissan"), findModel(brandModelGen, "Nissan", "Patrol"), null);
+                findBrand(brandModelGen, "Nissan"), findModel(brandModelGen, "Nissan", "Patrol"), null, "/uploads/1/photo1.jpg");
 
         // --- Разные типы кузова ---
         saveCar(user2, stance, 2015, new BigDecimal("1800000"),
@@ -350,14 +350,14 @@ public class DemoDataInitializer implements CommandLineRunner {
                 List.of(stanceMods.get(0), stanceMods.get(1), stanceMods.get(3)),
                 135000, null, "Бензин", 2.0, 190, "Универсал", false, "Левый", true,
                 findBrand(brandModelGen, "Audi"), findModel(brandModelGen, "Audi", "A6"),
-                findGen(brandModelGen, "Audi", "A6", "C7"));
+                findGen(brandModelGen, "Audi", "A6", "C7"), "/uploads/1/photo1.jpg");
 
         saveCar(user3, stance, 2018, new BigDecimal("2200000"),
                 "Казань", tatarstan, "Skoda Octavia A7, занижена, литьё.",
                 List.of(stanceMods.get(0), stanceMods.get(4)),
                 110000, null, "Бензин", 1.8, 180, "Лифтбек", false, "Левый", true,
                 findBrand(brandModelGen, "Skoda"), findModel(brandModelGen, "Skoda", "Octavia"),
-                findGen(brandModelGen, "Skoda", "Octavia", "A7"));
+                findGen(brandModelGen, "Skoda", "Octavia", "A7"), "/uploads/1/photo1.jpg");
 
         log.info("Demo data initialized successfully. {} listings created.", carRepository.count());
     }
@@ -1284,7 +1284,7 @@ public class DemoDataInitializer implements CommandLineRunner {
                           List<ModsCategory> mods, Integer mileageKm, Integer mileageHours,
                           String engineType, Double engineDisplacement, Integer enginePower,
                           String bodyType, boolean damaged, String steeringSide, boolean registered,
-                          CarBrand carBrand, CarModel carModel, CarGeneration carGeneration) {
+                          CarBrand carBrand, CarModel carModel, CarGeneration carGeneration, String imagePath) {
         VehicleCar c = new VehicleCar();
         c.setUser(user);
         c.setProjectTag(tag);
@@ -1306,6 +1306,10 @@ public class DemoDataInitializer implements CommandLineRunner {
         c.setCarBrand(carBrand);
         c.setCarModel(carModel);
         c.setCarGeneration(carGeneration);
+        if (imagePath != null && !imagePath.isEmpty()) {
+            CarImage img = new CarImage(c, imagePath, 0, true);
+            c.getImages().add(img);
+        }
         carRepository.save(c);
     }
 }

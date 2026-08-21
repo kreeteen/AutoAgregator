@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  database:
+    image: postgres:16-alpine
+    container_name: project_cars_db
+    environment:
+      POSTGRES_DB: projectcars
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - project_cars_vol:/var/lib/postgresql/data
+    networks:
+      - project_cars_net
+    ports:
+      - 5434:5434
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
+  backend:
+    image: kreeteen/projectcars-webapp:1.0
+    container_name: project_cars_backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/projectcars
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 1234
+      SERVER_ADDRESS: 0.0.0.0
+    volumes:
+      - ./uploads:/workspace/uploads
+    ports:
+      - 8080:8080
+    networks:
+      - project_cars_net
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: on-failure
+
+volumes:
+  project_cars_vol:
+    name: project_cars_vol
+
+
+networks:
+  project_cars_net:
+    name: project_cars_net

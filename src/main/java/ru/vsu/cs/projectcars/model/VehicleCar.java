@@ -102,7 +102,7 @@ public class VehicleCar {
     )
     private List<ModsCategory> selectedMods = new ArrayList<>();
 
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("sortOrder ASC")
     private List<CarImage> images = new ArrayList<>();
 
