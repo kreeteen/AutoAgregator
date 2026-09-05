@@ -17,7 +17,8 @@ import java.util.*;
 @ConditionalOnProperty(name = "app.demo-data.enabled", havingValue = "true", matchIfMissing = false)
 public class DemoDataInitializer implements CommandLineRunner {
 
-    private static final Logger log = LoggerFactory.getLogger(DemoDataInitializer.class);
+        private static final Logger log = LoggerFactory.getLogger(DemoDataInitializer.class);
+        private int demoImageSequence = 4;
 
     private final ProjectTagRepository tagRepository;
     private final ModsCategoryRepository modsRepository;
@@ -1293,7 +1294,7 @@ public class DemoDataInitializer implements CommandLineRunner {
         c.setCity(city);
         c.setRegion(region);
         c.setDescription(desc);
-        c.setSelectedMods(mods);
+        c.setSelectedMods(new ArrayList<>(mods));
         c.setMileageKm(mileageKm);
         c.setMileageHours(mileageHours);
         c.setEngineType(engineType);
@@ -1309,8 +1310,9 @@ public class DemoDataInitializer implements CommandLineRunner {
                 VehicleCar saved = carRepository.save(c);
                 if (imagePath != null && !imagePath.isEmpty()) {
                         String resolvedImagePath = imagePath;
-                        if ("/uploads/1/photo1.jpg".equals(imagePath) && saved.getId() > 3) {
-                                resolvedImagePath = "/uploads/" + saved.getId() + "/photo" + saved.getId() + ".jpg";
+                        if ("/uploads/1/photo1.jpg".equals(imagePath)) {
+                                int imageNumber = demoImageSequence++;
+                                resolvedImagePath = "/uploads/" + imageNumber + "/photo" + imageNumber + ".jpg";
                         }
                         CarImage img = new CarImage(saved, resolvedImagePath, 0, true);
                         saved.getImages().add(img);

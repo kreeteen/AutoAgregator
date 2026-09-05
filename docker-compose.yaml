@@ -5,9 +5,9 @@ services:
     image: postgres:16-alpine
     container_name: project_cars_db
     environment:
-      POSTGRES_DB: projectcars
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
     volumes:
       - project_cars_vol:/var/lib/postgresql/data
     networks:
@@ -16,7 +16,7 @@ services:
       - 5434:5432
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready", "-U", "postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 5s
       timeout: 5s
       retries: 3
@@ -37,8 +37,8 @@ services:
     container_name: project_cars_minio
     command: server /data --console-address ":9001"
     environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
     volumes:
       - project_cars_minio:/data
     networks:
@@ -51,14 +51,16 @@ services:
   backend:
     image: kreeteen/projectcars-webapp:1.0
     container_name: project_cars_backend
+    env_file:
+      - .env
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/projectcars
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASS}
       REDIS_HOST: redis
       MINIO_ENDPOINT: http://minio:9000
-      MINIO_ACCESS_KEY: minioadmin
-      MINIO_SECRET_KEY: minioadmin
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
       MINIO_BUCKET: projectcars
       MINIO_MIGRATE_LOCAL: "true"
       SERVER_ADDRESS: 0.0.0.0

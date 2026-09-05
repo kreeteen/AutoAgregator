@@ -1,0 +1,9 @@
+# Local secrets
+.env
+*.env
+
+# Local data and build output
+uploads/
+target/
+.git/
+.idea/
