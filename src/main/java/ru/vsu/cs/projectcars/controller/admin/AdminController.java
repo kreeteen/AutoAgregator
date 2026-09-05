@@ -77,7 +77,13 @@ public class AdminController {
         List<VehicleCar> all = carRepository.findAllWithAssociations();
         all.forEach(c -> {
             Hibernate.initialize(c.getUser());
+            Hibernate.initialize(c.getProjectTag());
+            Hibernate.initialize(c.getCarBrand());
+            Hibernate.initialize(c.getCarModel());
+            Hibernate.initialize(c.getCarGeneration());
+            Hibernate.initialize(c.getRegion());
             Hibernate.initialize(c.getSelectedMods());
+            c.setSelectedMods(new java.util.ArrayList<>(c.getSelectedMods()));
         });
         model.addAttribute("cars", all);
         return "admin/cars";
@@ -93,16 +99,33 @@ public class AdminController {
     @Transactional(readOnly = true)
     public String tags(Model model) {
         List<ProjectTag> allTags = tagRepository.findAll();
-        allTags.forEach(t -> Hibernate.initialize(t.getModsCategories()));
+        allTags.forEach(t -> {
+            Hibernate.initialize(t.getModsCategories());
+            t.setModsCategories(new java.util.ArrayList<>(t.getModsCategories()));
+        });
         model.addAttribute("tags", allTags);
         return "admin/tags";
     }
 
+    @GetMapping("/mods")
+    @Transactional(readOnly = true)
+    public String mods(Model model) {
+        List<ProjectTag> allTags = tagRepository.findAll();
+        allTags.forEach(t -> {
+            Hibernate.initialize(t.getModsCategories());
+            t.setModsCategories(new java.util.ArrayList<>(t.getModsCategories()));
+        });
+        model.addAttribute("tags", allTags);
+        return "admin/mods";
+    }
+
     @PostMapping("/tags")
-    public String createTag(@RequestParam String name, @RequestParam(required = false) String description) {
-        ProjectTag tag = new ProjectTag(name);
-        tag.setDescription(description);
-        tagRepository.save(tag);
+    public String createModFromTags(@RequestParam Integer tagId, @RequestParam String name) {
+        ProjectTag tag = tagRepository.findById(tagId).orElseThrow();
+        ModsCategory mod = new ModsCategory();
+        mod.setProjectTag(tag);
+        mod.setName(name);
+        modsRepository.save(mod);
         return "redirect:/admin/tags";
     }
 
@@ -113,15 +136,12 @@ public class AdminController {
     }
 
     @PostMapping("/mods")
-    public String createMod(@RequestParam Integer tagId, @RequestParam String name) {
-        ProjectTag tag = tagRepository.findById(tagId).orElse(null);
-        if (tag != null) {
-            ModsCategory mod = new ModsCategory();
-            mod.setProjectTag(tag);
-            mod.setName(name);
-            modsRepository.save(mod);
-        }
-        return "redirect:/admin/tags";
+    public String createTagFromMods(@RequestParam String name,
+                                    @RequestParam(required = false) String description) {
+        ProjectTag tag = new ProjectTag(name);
+        tag.setDescription(description);
+        tagRepository.save(tag);
+        return "redirect:/admin/mods";
     }
 
     @PostMapping("/mods/{id}/delete")

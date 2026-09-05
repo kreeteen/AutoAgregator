@@ -152,6 +152,41 @@ public class VehicleCarController {
         return "cars/by-tag";
     }
 
+    @GetMapping("/api/page")
+    public String nextPage(CarFilter filter,
+                           @RequestParam(defaultValue = "0") int page,
+                           @RequestParam(defaultValue = "20") int size,
+                           HttpSession session,
+                           Model model) {
+        applySelectedRegion(filter, session);
+        Page<VehicleCar> carPage = carService.findByFilterPagedWithInit(filter,
+                PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
+        model.addAttribute("cars", carPage.getContent());
+        return "cars/card-fragment :: carCards";
+    }
+
+    @GetMapping("/api/tag/{tagId}/page")
+    public String nextTagPage(@PathVariable Integer tagId,
+                              CarFilter filter,
+                              @RequestParam(defaultValue = "0") int page,
+                              @RequestParam(defaultValue = "20") int size,
+                              HttpSession session,
+                              Model model) {
+        applySelectedRegion(filter, session);
+        filter.setProjectTagId(tagId);
+        Page<VehicleCar> carPage = carService.findByFilterPagedWithInit(filter,
+                PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
+        model.addAttribute("cars", carPage.getContent());
+        return "cars/card-fragment :: carCards";
+    }
+
+    private void applySelectedRegion(CarFilter filter, HttpSession session) {
+        if (filter.getRegionId() == null) {
+            Object attr = session.getAttribute("selectedRegionId");
+            if (attr instanceof Integer sid) filter.setRegionId(sid);
+        }
+    }
+
     @GetMapping("/{id}")
     public String detail(@PathVariable Integer id, Model model,
                          @AuthenticationPrincipal JwtPrincipal principal,

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="carCards" class="col-md-6 col-lg-4 mb-4" th:each="car : ${cars}">
+    <div class="card-racing">
+        <div class="card-image">
+            <div class="badge-corner" th:text="${car.projectTag.name}">tag</div>
+            <img th:if="${!#lists.isEmpty(car.images)}" th:src="${car.images[0].filePath}" alt="">
+            <div th:if="${#lists.isEmpty(car.images)}" class="card-image-placeholder"><i class="bi bi-car-front"></i></div>
+        </div>
+        <div class="card-body">
+            <div class="card-title" th:if="${car.carBrand != null}" th:text="${car.carBrand.name + (car.carModel != null ? ' ' + car.carModel.name : '')}">Make Model</div>
+            <div class="card-title" th:if="${car.carBrand == null}">Без марки</div>
+            <div class="card-subtitle"><i class="bi bi-calendar me-1"></i><span th:text="${car.manufactureYear}">2000</span><i class="bi bi-geo-alt ms-2 me-1"></i><span th:text="${car.city}">City</span></div>
+            <div class="card-price" th:text="${#numbers.formatDecimal(car.price, 0, 'COMMA', 0, 'POINT') + ' руб.'}">price</div>
+            <div class="card-specs"><div class="spec"><strong>Кузов:</strong> <span th:text="${car.bodyType}">sedan</span></div><div class="spec"><strong>Модиф.:</strong> <span th:text="${#lists.size(car.selectedMods)}">0</span></div></div>
+        </div>
+        <div class="card-footer"><a th:href="@{/cars/{id}(id=${car.id})}" class="btn-racing" style="font-size:0.65rem;padding:0.3rem 0.8rem;">Подробнее</a></div>
+    </div>
+</div>
+</body>
+</html>

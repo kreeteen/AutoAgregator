@@ -1306,10 +1306,15 @@ public class DemoDataInitializer implements CommandLineRunner {
         c.setCarBrand(carBrand);
         c.setCarModel(carModel);
         c.setCarGeneration(carGeneration);
-        if (imagePath != null && !imagePath.isEmpty()) {
-            CarImage img = new CarImage(c, imagePath, 0, true);
-            c.getImages().add(img);
-        }
-        carRepository.save(c);
+                VehicleCar saved = carRepository.save(c);
+                if (imagePath != null && !imagePath.isEmpty()) {
+                        String resolvedImagePath = imagePath;
+                        if ("/uploads/1/photo1.jpg".equals(imagePath) && saved.getId() > 3) {
+                                resolvedImagePath = "/uploads/" + saved.getId() + "/photo" + saved.getId() + ".jpg";
+                        }
+                        CarImage img = new CarImage(saved, resolvedImagePath, 0, true);
+                        saved.getImages().add(img);
+                        carRepository.save(saved);
+                }
     }
 }

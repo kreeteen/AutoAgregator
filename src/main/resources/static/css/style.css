@@ -322,8 +322,7 @@ a:hover { color: var(--yellow); }
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   padding: 1.25rem;
-  position: sticky;
-  top: 80px;
+  position: relative;
 }
 .filter-racing .filter-header {
   display: flex;
@@ -333,6 +332,30 @@ a:hover { color: var(--yellow); }
   padding-bottom: 0.75rem;
   border-bottom: 2px solid var(--red);
 }
+.filter-header-actions { display: flex; align-items: center; gap: 0.6rem; }
+.filter-header-actions .btn-racing-outline { padding: 0.2rem 0.6rem; font-size: 0.65rem; }
+.filter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid var(--border-color);
+  background: var(--carbon);
+  color: var(--text-secondary);
+  padding: 0.35rem 0.7rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+}
+.filter-toggle:hover, .filter-toggle.is-open { color: var(--yellow); border-color: var(--yellow); }
+.filter-toggle i { transition: transform var(--transition); }
+.filter-toggle.is-open i { transform: rotate(180deg); }
+.filter-racing form { display: grid; grid-template-columns: repeat(5, minmax(150px, 1fr)); gap: 0 0.9rem; }
+.filter-racing form > .filter-section { min-width: 0; }
+.filter-racing form > .filter-extra { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(5, minmax(150px, 1fr)); gap: 0 0.9rem; }
+.filter-racing form > .filter-extra[hidden] { display: none; }
+.filter-racing form > button { grid-column: 1 / -1; max-width: 260px; justify-self: center; }
 .filter-racing .filter-header h5 { font-weight: 800; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin: 0; }
 .filter-racing .filter-header a { font-size: 0.7rem; }
 .filter-racing .filter-section {
@@ -777,14 +800,34 @@ a:hover { color: var(--yellow); }
 }
 .admin-card .admin-card-desc {
   font-size: 0.7rem;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   line-height: 1.3;
 }
+.admin-page { padding-bottom: 2rem; }
+.admin-page-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+.admin-page-heading h2 { margin-bottom: 0.35rem; }
+.admin-page-heading p { color: var(--text-secondary); margin: 0; font-size: 0.9rem; }
+.eyebrow { color: var(--yellow); font-size: 0.68rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 0.4rem; }
+.admin-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.admin-panel { background: var(--bg-card); border: 1px solid var(--border-color); border-top: 2px solid var(--red); padding: 1.25rem; }
+.admin-panel h5 { color: var(--text-primary); font-weight: 800; }
+.admin-panel .form-label { color: var(--text-secondary); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.8px; }
+.admin-panel .form-control, .admin-panel .form-select { background: var(--carbon); color: var(--text-primary); border-color: var(--border-color); border-radius: 0; }
+.admin-panel .form-control::placeholder { color: var(--text-muted); }
+.admin-count { display: inline-flex; min-width: 2rem; height: 2rem; align-items: center; justify-content: center; padding: 0 0.5rem; background: rgba(255,214,10,0.12); color: var(--yellow); font-weight: 800; }
+.admin-mod-list { list-style: none; padding: 0; margin: 0; }
+.admin-mod-list li { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.55rem 0; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
+.admin-mod-list li:last-child { border-bottom: 0; }
+.admin-mod-list form { margin: 0; }
+.icon-action { border: 0; background: transparent; color: var(--text-secondary); cursor: pointer; padding: 0.2rem 0.35rem; }
+.icon-action.danger:hover { color: var(--red); }
+.admin-empty { color: var(--text-secondary); font-size: 0.85rem; margin: 0; }
 .admin-table {
   border: 1px solid var(--border-color);
 }
 .admin-table thead th {
   border-bottom: 2px solid var(--red) !important;
+  color: var(--text-secondary) !important;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 0.75rem;
@@ -793,7 +836,11 @@ a:hover { color: var(--yellow); }
 .admin-table tbody td {
   vertical-align: middle;
   font-size: 0.85rem;
+  color: var(--text-primary);
 }
+.admin-table tbody td a { color: var(--yellow); }
+.admin-actions-cell { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+.admin-actions-cell form { margin: 0; }
 .admin-table tbody tr:hover {
   background: rgba(255,214,10,0.03) !important;
 }
@@ -802,7 +849,7 @@ a:hover { color: var(--yellow); }
 @media (max-width: 991.98px) {
   .hero-racing h1 { font-size: 2.5rem; }
   .hero-racing { min-height: 50vh; }
-  .filter-racing { position: static; }
+  .filter-racing form, .filter-racing form > .filter-extra { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 767.98px) {
   .hero-racing h1 { font-size: 1.8rem; letter-spacing: 3px; }
@@ -812,4 +859,9 @@ a:hover { color: var(--yellow); }
   .card-racing .card-specs { grid-template-columns: 1fr; }
   .wizard-racing { flex-direction: column; }
   .wizard-racing .step { border-right: none; border-bottom: 1px solid var(--border-color); }
+  .filter-header { align-items: flex-start !important; gap: 0.75rem; }
+  .filter-header-actions { flex-direction: column; align-items: stretch; }
+  .filter-racing form, .filter-racing form > .filter-extra { grid-template-columns: 1fr; }
+  .filter-racing form > button { max-width: none; }
+  .admin-page-heading { flex-direction: column; }
 }

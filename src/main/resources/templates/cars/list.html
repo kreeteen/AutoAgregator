@@ -22,12 +22,17 @@
     </div>
 
     <div class="row g-4">
-        <!-- Filter sidebar -->
-        <div class="col-lg-3">
+        <!-- Filters -->
+        <div class="col-12">
             <div class="filter-racing">
                 <div class="filter-header">
                     <h5><i class="bi bi-funnel me-2"></i>Фильтры</h5>
-                    <a th:href="@{/cars}" class="btn-racing-outline" style="padding:0.2rem 0.6rem;font-size:0.65rem;">Сброс</a>
+                    <div class="filter-header-actions">
+                        <a th:href="@{/cars}" class="btn-racing-outline">Сброс</a>
+                        <button type="button" class="filter-toggle" data-filter-toggle="cars-filters" aria-expanded="false" aria-controls="cars-filters">
+                            <span>Дополнительные</span><i class="bi bi-chevron-down"></i>
+                        </button>
+                    </div>
                 </div>
                 <form th:action="@{/cars}" method="get">
                     <div class="filter-section">
@@ -65,6 +70,7 @@
                             <input type="number" name="maxPrice" class="form-control" th:value="${filter.maxPrice}" placeholder="До">
                         </div>
                     </div>
+                    <div id="cars-filters" class="filter-extra" hidden>
                     <div class="filter-section">
                         <div class="filter-section-title">Пробег, км</div>
                         <div class="d-flex gap-2">
@@ -152,19 +158,20 @@
                             <option value="false" th:selected="${filter.registered != null and !filter.registered}">Снят с учёта</option>
                         </select>
                     </div>
+                    </div>
                     <button type="submit" class="btn-racing mt-3" style="width:100%;justify-content:center;clip-path:none;border-radius:0;">Применить</button>
                 </form>
             </div>
         </div>
 
         <!-- Car list -->
-        <div class="col-lg-9">
+        <div class="col-12">
             <div th:if="${#lists.isEmpty(cars)}" class="empty-racing">
                 <div class="empty-icon">🔍</div>
                 <h4>Ничего не найдено</h4>
                 <p>Попробуйте другие параметры</p>
             </div>
-            <div class="row" th:if="${!#lists.isEmpty(cars)}">
+            <div id="car-grid" class="row" th:if="${!#lists.isEmpty(cars)}">
                 <div class="col-md-6 col-lg-4 mb-4" th:each="car : ${cars}">
                     <div class="card-racing">
                         <div class="card-image">
@@ -204,8 +211,8 @@
                     </div>
                 </div>
             </div>
-            <div class="load-more-racing">
-                <button onclick="this.innerHTML='Загрузка...';setTimeout(function(){location.reload()},1000);"><i class="bi bi-arrow-repeat me-2"></i>Загрузить ещё</button>
+            <div class="load-more-racing" th:if="${currentPage + 1 < totalPages}">
+                <button id="load-more" type="button" th:data-next-page="${currentPage + 1}" onclick="loadMoreCars(this)"><i class="bi bi-arrow-repeat me-2"></i>Загрузить ещё</button>
             </div>
         </div>
     </div>
@@ -213,6 +220,25 @@
 
 <footer th:replace="~{fragments :: footer}"></footer>
 
+<script th:inline="javascript">
+    function loadMoreCars(button) {
+        var nextPage = button.dataset.nextPage;
+        var params = new URLSearchParams(window.location.search);
+        params.set('page', nextPage);
+        fetch('/cars/api/page?' + params.toString(), {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+            .then(function(response) { if (!response.ok) throw new Error('Не удалось загрузить объявления'); return response.text(); })
+            .then(function(html) {
+                document.getElementById('car-grid').insertAdjacentHTML('beforeend', html);
+                var next = Number(nextPage) + 1;
+                if (next >= [[${totalPages}]]) button.parentElement.remove();
+                else button.dataset.nextPage = next;
+            })
+            .catch(function() { button.disabled = false; button.innerHTML = '<i class="bi bi-arrow-repeat me-2"></i>Повторить'; })
+            .finally(function() { button.disabled = false; });
+        button.disabled = true;
+        button.innerHTML = '<i class="bi bi-arrow-repeat me-2"></i>Загрузка...';
+    }
+</script>
 <script>
     var modelCache = {};
     var genCache = {};
@@ -244,6 +270,17 @@
         sel.innerHTML = '<option value="">Все поколения</option>';
         data.forEach(function(g) { var opt = document.createElement('option'); opt.value = g.id; opt.textContent = g.name; sel.appendChild(opt); });
     }
+</script>
+<script>
+    document.querySelectorAll('[data-filter-toggle]').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var panel = document.getElementById(button.getAttribute('data-filter-toggle'));
+            var expanded = button.getAttribute('aria-expanded') === 'true';
+            panel.hidden = expanded;
+            button.setAttribute('aria-expanded', String(!expanded));
+            button.classList.toggle('is-open', !expanded);
+        });
+    });
 </script>
 </body>
 </html>

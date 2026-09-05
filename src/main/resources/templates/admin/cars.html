@@ -23,7 +23,8 @@
                 <tr th:each="c : ${cars}">
                     <td th:text="${c.id}">1</td>
                     <td>
-                        <a th:href="@{/cars/{id}(id=${c.id})}" th:text="${c.carBrand != null ? c.carBrand.name + ' ' + c.carModel.name : 'Без бренда'}">Toyota Supra</a>
+                                <a th:href="@{/cars/{id}(id=${c.id})}"
+                                    th:text="${c.carBrand != null ? c.carBrand.name + (c.carModel != null ? ' ' + c.carModel.name : '') : 'Без бренда'}">Toyota Supra</a>
                     </td>
                     <td th:text="${c.user != null ? c.user.email : '—'}">user@test.ru</td>
                     <td th:text="${c.price != null ? #numbers.formatDecimal(c.price, 0, 'COMMA', 0, 'POINT') + ' ₽' : '—'}">1 000 000 ₽</td>
@@ -33,9 +34,9 @@
                         <span th:unless="${c.registered}" class="badge bg-warning text-dark">Не на учёте</span>
                     </td>
                     <td>
+                        <a th:href="@{/cars/{id}(id=${c.id})}" class="btn btn-sm btn-outline-light">Открыть</a>
                         <form th:action="@{/admin/cars/{id}/delete(id=${c.id})}" method="post" style="display:inline;">
-                            <button type="submit" class="btn btn-sm btn-outline-danger"
-                                    onclick="return confirm('Удалить объявление?')">Удалить</button>
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Удалить объявление?')"><i class="bi bi-trash3 me-1"></i>Удалить</button>
                         </form>
                     </td>
                 </tr>

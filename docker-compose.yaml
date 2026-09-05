@@ -13,13 +13,40 @@ services:
     networks:
       - project_cars_net
     ports:
-      - 5434:5434
+      - 5434:5432
     restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready", "-U", "postgres"]
       interval: 5s
       timeout: 5s
       retries: 3
+
+  redis:
+    image: redis:7-alpine
+    container_name: project_cars_redis
+    volumes:
+      - project_cars_redis:/data
+    networks:
+      - project_cars_net
+    ports:
+      - 6379:6379
+    restart: always
+
+  minio:
+    image: minio/minio:latest
+    container_name: project_cars_minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - project_cars_minio:/data
+    networks:
+      - project_cars_net
+    ports:
+      - 9000:9000
+      - 9001:9001
+    restart: always
 
   backend:
     image: kreeteen/projectcars-webapp:1.0
@@ -28,9 +55,15 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/projectcars
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: 1234
+      REDIS_HOST: redis
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_BUCKET: projectcars
+      MINIO_MIGRATE_LOCAL: "true"
       SERVER_ADDRESS: 0.0.0.0
     volumes:
-      - ./uploads:/workspace/uploads
+      - ./uploads:/workspace/uploads:ro
     ports:
       - 8080:8080
     networks:
@@ -38,11 +71,19 @@ services:
     depends_on:
       database:
         condition: service_healthy
+      redis:
+        condition: service_started
+      minio:
+        condition: service_started
     restart: on-failure
 
 volumes:
   project_cars_vol:
     name: project_cars_vol
+  project_cars_redis:
+    name: project_cars_redis
+  project_cars_minio:
+    name: project_cars_minio
 
 
 networks:
