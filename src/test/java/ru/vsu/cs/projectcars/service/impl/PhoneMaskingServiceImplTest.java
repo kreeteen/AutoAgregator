@@ -37,4 +37,10 @@ class PhoneMaskingServiceImplTest {
     void maskNull() {
         assertNull(service.mask(null));
     }
+
+    @Test
+    @DisplayName("Short phone number should remain unchanged")
+    void maskShortPhone() {
+        assertEquals("123456", service.mask("123456"));
+    }
 }
